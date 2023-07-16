@@ -3,19 +3,16 @@
   </h1>
   <div class="summary" v-html="nl2br(currentBook.summary)"></div>
   <div class="summary" v-if="currentBook.source">来源: {{ currentBook.source }}</div>
-  <el-row><el-col style="text-align: right;">
-      <el-button-group>
-        <el-button icon="Management" type="primary"
-          @click="$router.push({ name: 'volumes', params: { 'bookid': bookid } })" />
-        <el-button icon="Download" type="primary" @click="handleDownload" />
-      </el-button-group>
-      <el-button-group style="margin-left:5px;">
-        <el-button icon="DocumentAdd" type="success"
-          @click="$router.push({ name: 'editchapter', params: { 'bookid': bookid, chapterid: 0 } })" />
-        <el-button icon="Edit" type="success" @click="editMode = !editMode" />
-      </el-button-group>
-    </el-col>
-  </el-row>
+  <div style="text-align: right;">
+    <el-button-group>
+      <el-button icon="Management" size="default" @click="handleVolume(bookid)" />
+      <el-button icon="Download" size="default" @click="handleDownload" />
+    </el-button-group>
+    <el-button-group style="margin-left:5px;">
+      <el-button icon="Plus" @click="handleEditChapter(bookid)" />
+      <el-button icon="Edit" @click="editMode = !editMode" />
+    </el-button-group>
+  </div>
   <el-row v-for="(volume, vidx) in volumeData" :index="volume.id" :key="vidx">
     <el-col :span="24" style="text-align: left;border-bottom: 1px solid #999;">
       <h4>{{ volume.title == currentBook.title ? '目录' : volume.title }}<xxsmall v-if="chapterData[volume.id]"> (共{{
@@ -25,13 +22,10 @@
     </el-col>
     <el-col style="line-height:25px;padding:10px; border-bottom: 1px solid #ddd;" :span="8"
       v-for="(chapter, index) in chapterData[volume.id]" :index="chapter.id" :key="index">
-      <el-link v-if="chapter"
-        @click="$router.push({ name: 'content', params: { 'bookid': bookid, 'chapterid': chapter.id } })">{{ chapter.title
-        }}</el-link>
+      <el-link v-if="chapter" @click="handleReadChapter(bookid, chapter.id)">{{ chapter.title }}</el-link>
       <p v-if="editMode">
         <el-button-group>
-          <el-button icon="Edit"
-            @click="$router.push({ name: 'editchapter', params: { 'bookid': bookid, chapterid: chapter.id } })" />
+          <el-button icon="Edit" @click="handleEditChapter(bookid, chapter.id)" />
           <el-button icon="Delete" @click="handleDelete(index, chapter, volume.id)" />
         </el-button-group>
       </p>
@@ -57,6 +51,7 @@ import useOptionsStore from '~/stores/options'
 const gostore = useOptionsStore()
 gostore.headerIndex = 'chapters'
 
+const router = useRouter()
 const route = useRoute()
 const bookid = intval(route.params.bookid)
 
@@ -101,6 +96,10 @@ const handleDelete = (index: number, row: Chapter, volumeid: number) => {
     })
 }
 
+const handleVolume = (bookid: number) => {
+  router.push({ name: 'volumes', params: { 'bookid': bookid } })
+}
+
 // ***************** 下载 ***************** //
 const handleDownload = () => {
   ElMessageBox.confirm(
@@ -118,6 +117,14 @@ const handleDownload = () => {
     .catch(() => {
       // 放弃下载
     })
+}
+
+const handleEditChapter = (bookid: number, chapterid = 0) => {
+  router.push({ name: 'editchapter', params: { 'bookid': bookid, chapterid: chapterid } })
+}
+
+const handleReadChapter = (bookid: number, chapterid: number) => {
+  router.push({ name: 'content', params: { 'bookid': bookid, chapterid: chapterid } })
 }
 
 // ***************** 章节 ***************** //

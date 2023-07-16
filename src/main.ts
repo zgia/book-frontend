@@ -8,7 +8,7 @@ import App from './App.vue'
 import router from '~/routers'
 
 // 全局图标
-import { Setting, Unlock, OfficeBuilding, User, UserFilled, Edit, Plus, Delete, Search, Female, Check, Close, SwitchButton, DocumentAdd, Management, Download, Reading, ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
+import { Setting, Unlock, OfficeBuilding, User, UserFilled, Edit, Plus, Delete, Search, Female, Check, Close, SwitchButton, Management, Download, Reading, ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 
 // 全量导入取消注释
 //import 'element-plus/dist/index.css'
@@ -22,7 +22,7 @@ import 'uno.css'
 const pinia = createPinia()
 const app = createApp(App)
 
-for (const [key, component] of Object.entries({ Setting, Unlock, OfficeBuilding, User, UserFilled, Edit, Plus, Delete, Search, Female, Check, Close, SwitchButton, DocumentAdd, Management, Download, Reading, ArrowLeft, ArrowRight })) {
+for (const [key, component] of Object.entries({ Setting, Unlock, OfficeBuilding, User, UserFilled, Edit, Plus, Delete, Search, Female, Check, Close, SwitchButton, Management, Download, Reading, ArrowLeft, ArrowRight })) {
   app.component(key, component)
 }
 

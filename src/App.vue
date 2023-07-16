@@ -1,5 +1,5 @@
 <template>
-  <el-config-provider size="small" namespace="ep">
+  <el-config-provider size="default" namespace="ep">
     <el-container direction="vertical">
       <el-header>
         <router-view name="header" />

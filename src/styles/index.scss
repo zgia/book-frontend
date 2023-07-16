@@ -29,6 +29,10 @@ xxsmall {
   margin-right: 15px;
 }
 
+.ep-button--default {
+  padding: 5px 11px;
+}
+
 .table-head th.ep-table__cell {
   background-color: var(--ep-color-info-light-9) !important;
 }
@@ -46,11 +50,13 @@ xxsmall {
     width: 500px;
   }
 }
+
 @media screen and (max-device-width: 640px) {
   .header-title {
     display: none;
   }
-  .ep-backtop{
+
+  .ep-backtop {
     right: 20px !important;
     bottom: 20px !important;
   }
