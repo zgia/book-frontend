@@ -1,8 +1,11 @@
 <template>
   <h1>{{ currentBook.title }} <xxsmall>{{ currentBook.author }}</xxsmall>
   </h1>
-  <div class="summary" v-html="nl2br(currentBook.summary)"></div>
-  <div class="summary" v-if="currentBook.source">来源: {{ currentBook.source }}</div>
+  <div v-if="currentBook.summary" style="text-align: left;">
+    <h2>作品简介</h2>
+    <div class="summary" v-html="nl2br(currentBook.summary)"></div>
+    <div class="summary" v-if="currentBook.source">来源: {{ currentBook.source }}</div>
+  </div>
   <div style="text-align: right;">
     <el-button-group>
       <el-button icon="Management" size="default" @click="handleVolume(bookid)" />
@@ -13,14 +16,18 @@
       <el-button icon="Edit" @click="editMode = !editMode" />
     </el-button-group>
   </div>
+  <h2 style="text-align: left;">目录 <xxsmall> 连载至 {{ latestChapter }}</xxsmall>
+  </h2>
   <el-row v-for="(volume, vidx) in volumeData" :index="volume.id" :key="vidx">
-    <el-col :span="24" style="text-align: left;border-bottom: 1px solid #999;">
-      <h4>{{ volume.title == currentBook.title ? '目录' : volume.title }}<xxsmall v-if="chapterData[volume.id]"> (共{{
-        chapterData[volume.id].length }}章)</xxsmall>
-      </h4>
-      <xxsmall style="color: #999;" v-if="volume.summary" v-html="nl2br(volume.summary)" />
+    <el-col :span="24" style="text-align: left;">
+      <el-alert type="info" :closable="false">
+        <h3>{{ volume.title == currentBook.title ? '正文卷' : volume.title }}<xxsmall v-if="chapterData[volume.id]"> (共{{
+          chapterData[volume.id].length }}章)</xxsmall>
+        </h3>
+        <xxsmall style="color: #999;" v-if="volume.summary" v-html="nl2br(volume.summary)" />
+      </el-alert>
     </el-col>
-    <el-col style="line-height:25px;padding:10px; border-bottom: 1px solid #ddd;" :span="8"
+    <el-col style="line-height:25px;padding:10px;" :span="8"
       v-for="(chapter, index) in chapterData[volume.id]" :index="chapter.id" :key="index">
       <el-link v-if="chapter" @click="handleReadChapter(bookid, chapter.id)">{{ chapter.title }}</el-link>
       <p v-if="editMode">
@@ -35,9 +42,14 @@
 </template>
 
 <style scoped>
+h1 {
+  font-size: 2.5em;
+}
+
 .summary {
   color: var(--ep-text-color-regular);
   font-size: 12px;
+  text-align: left;
 }
 </style>
 
@@ -131,6 +143,8 @@ const handleReadChapter = (bookid: number, chapterid: number) => {
 const chapterData = reactive({ string: [] })
 const volumeData: Volume[] = reactive([])
 
+const latestChapter = ref('')
+
 const getChapters = () => {
   BookService.getChapters({ bookid: bookid }).then(
     resp => {
@@ -147,6 +161,14 @@ const getChapters = () => {
       }
 
       gostore.book = currentBook
+
+      // 最终章节
+      let latestVolumeTitle = volumeData[volumeData.length - 1].title
+      latestVolumeTitle = latestVolumeTitle == currentBook.title ? '' : latestVolumeTitle
+      let lvid = volumeData[volumeData.length - 1].id
+      let lc = resp.data.items[lvid][resp.data.items[lvid].length - 1]
+      console.log(lc, latestVolumeTitle)
+      latestChapter.value = latestVolumeTitle + ' ' + lc['title']
     }
   ).catch(
     err => {

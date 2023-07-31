@@ -20,8 +20,7 @@
     tripe border>
     <el-table-column label="书名">
       <template #default="scope">
-        <el-link @click="readBook(scope.row)"><strong>{{
-          scope.row.title }}</strong></el-link>
+        <el-link @click="readBook(scope.row)"><strong>{{ scope.row.title }}</strong></el-link>
       </template>
     </el-table-column>
     <el-table-column label="作者" width="140" v-if="showAuthor">
@@ -37,7 +36,7 @@
     </el-table-column>
     <el-table-column label="简介" v-if="showSummary">
       <template #default="scope">
-        <div style="text-align: left;" v-if="scope.row.summary" v-html="subSummary(scope.row.summary, 100)"></div>
+        <div style="text-align: left;" v-html="subSummary(scope.row, 100)"></div>
       </template>
     </el-table-column>
     <el-table-column label="管理" width="100">
@@ -56,8 +55,8 @@
   </div>
   <Suspense v-if="showEditDialog">
     <template #default>
-      <editDialog :book="currentBook" :dgwidth="editDialogWidth" @hide="showEditDialog = false"
-        @update="afterUpdated" @close-loading="closeLoading" />
+      <editDialog :book="currentBook" :dgwidth="editDialogWidth" @hide="showEditDialog = false" @update="afterUpdated"
+        @close-loading="closeLoading" />
     </template>
   </Suspense>
   <el-backtop />
@@ -135,14 +134,15 @@ watch(screenWidth, (sw) => {
 }, { immediate: true, deep: true })
 
 // 取简介的第一行
-const subSummary = (summary: string, len: number) => {
-  if (summary) {
-    const ss = summary.split('\n')
+const subSummary = (book: Book, len: number) => {
+  let su = ''
+  if (book.summary) {
+    const ss = book.summary.split('\n')
     if (ss[0]) {
-      return ss[0] ? ((ss[0].length > len) ? ss[0].substring(0, len) + '......' : ss[0]) : ''
+      su = ss[0] ? ((ss[0].length > len) ? ss[0].substring(0, len) + '......' : ss[0]) : ''
     }
   }
-  return summary
+  return su + (su ? '<br />' : '') + '最新：' + book.latestChapter
 }
 
 // 搜索

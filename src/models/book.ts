@@ -5,6 +5,7 @@ export interface Book {
   summary?: string,
   source?: string,
   wordcount?: number,
+  latestChapter?: string,
 }
 
 export interface Chapter {
