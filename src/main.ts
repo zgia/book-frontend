@@ -1,35 +1,49 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import App from './App.vue'
-// 全量导入取消注释
-//import ElementPlus from 'element-plus'
 
 // 路由
 import router from '~/routers'
 
-// 全局图标
-import { Setting, Unlock, OfficeBuilding, User, UserFilled, Edit, Plus, Delete, Search, Female, Check, Close, SwitchButton, Management, Download, Reading, ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
+// Vuetify
+import 'vuetify/styles'
+import { createVuetify } from 'vuetify'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
 
-// 全量导入取消注释
-//import 'element-plus/dist/index.css'
+// Translations provided by Vuetify
+import { zhHans } from 'vuetify/locale'
+// Icon
+import { aliases, fa } from 'vuetify/iconsets/fa'
 
-import '~/styles/index.scss'
-import 'uno.css'
 
-// 全量导入取消注释
-//import "element-plus/theme-chalk/src/message.scss"
+const vuetify = createVuetify({
+  components,
+  directives,
+  locale: {
+    locale: 'zhHans',
+    fallback: 'zhHans',
+    messages: { zhHans },
+  },
+  icons: {
+    defaultSet: 'fa',
+    aliases,
+    sets: { fa },
+  },
+  theme: {
+    defaultTheme: 'light'
+  },
+})
 
 const pinia = createPinia()
 const app = createApp(App)
-
-for (const [key, component] of Object.entries({ Setting, Unlock, OfficeBuilding, User, UserFilled, Edit, Plus, Delete, Search, Female, Check, Close, SwitchButton, Management, Download, Reading, ArrowLeft, ArrowRight })) {
-  app.component(key, component)
-}
 
 // 全量导入取消注释
 //app.use(ElementPlus, { locale: zhCn, size: 'small', });
 app.use(pinia)
 app.use(router)
+app.use(vuetify)
+
 
 // 页面显示的数据的行数
 app.config.globalProperties.pageSize = 20
