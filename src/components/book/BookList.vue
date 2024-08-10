@@ -1,6 +1,6 @@
 <template>
   <div class="book-categ">
-    <el-segmented v-model="currentCateg" :options="categories" block @change="handleChangeCateg" style="margin-bottom: 5px;" />
+    <el-segmented v-model="currentCateg" :options="categories" size="small" block @change="handleChangeCateg" style="margin-bottom: 5px;" />
   </div>
   <el-table v-loading="fsLoading" :header-row-class-name="tableHeadClass" :data="bookData" :highlight-current-row="true" tripe border>
     <el-table-column :label="$t('book.title')">
@@ -158,9 +158,9 @@ watch(() => gostore.clientWidth, (sw: number) => {
 
 // ***************** 分类导航 ***************** //
 const currentCateg = ref(searches.keywords)
-const categories = [{ label: '全部', value: '' }]
+const categories = [{ label: _t('book.all_category'), value: '' }]
 gostore.categories.forEach((val) => {
-  categories.push({ label: val.title + '(' + val.bookcount + ')', value: val.id + '' })
+  categories.push({ label: val.title + ' (' + val.bookcount + ')', value: val.id + '' })
 })
 
 const handleChangeCateg = (categ: string) => {
@@ -382,6 +382,10 @@ getBooks()
 .book-categ .ep-segmented {
   --ep-segmented-item-selected-color: var(--ep-color-white);
   --ep-segmented-item-selected-bg-color: var(--ep-color-primary);
-  --ep-border-radius-base: 16px;
+  --ep-border-radius-base: 10px;
+}
+
+.book-categ .ep-segmented :deep(.ep-segmented__item.is-selected) {
+  font-weight: 900;
 }
 </style>

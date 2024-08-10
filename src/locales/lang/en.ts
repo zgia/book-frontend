@@ -37,6 +37,7 @@ export default {
     saved_ok: 'The book <{title}> information is saved.',
     saved_error: 'The book cannot be saved: {err}',
     total: 'Total {total}',
+    all_category: 'All',
   },
   volume: {
     volume_management: 'Volume Management',

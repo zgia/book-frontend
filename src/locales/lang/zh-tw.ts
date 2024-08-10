@@ -37,6 +37,7 @@ export default {
     saved_ok: '圖書《{title}》訊息保存成功。 ',
     saved_error: '圖書保存失敗：{err}',
     total: '共 {total} 部書',
+    all_category: '全部',
   },
   volume: {
     volume_management: '卷管理',
