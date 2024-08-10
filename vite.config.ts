@@ -47,9 +47,9 @@ export default defineConfig(({ mode }) => {
           manualChunks(id) {
             // 一家人就要整整齐齐
             if (id.includes('/node_modules/vue/') || id.includes('/node_modules/vue-router/') || id.includes('/node_modules/pinia/')) {
-              return 'vue'
+              //return 'vue'
             } else if (id.includes('/node_modules/vue-i18n/')) {
-              return 'vue-i18n'
+              //return 'vue-i18n'
             } else if (id.includes('/node_modules/element-plus/') || id.includes('/node_modules/@element-plus/')) {
               return 'element-plus'
             }

@@ -1,4 +1,7 @@
 <template>
+  <div class="book-categ">
+    <el-segmented v-model="currentCateg" :options="categories" block @change="handleChangeCateg" style="margin-bottom: 5px;" />
+  </div>
   <el-table v-loading="fsLoading" :header-row-class-name="tableHeadClass" :data="bookData" :highlight-current-row="true" tripe border>
     <el-table-column :label="$t('book.title')">
       <template #default="scope">
@@ -152,6 +155,22 @@ watch(() => gostore.clientWidth, (sw: number) => {
   // 小屏幕时，增大编辑图书对话框的宽度
   dgWidth.value = dialogWidth(sw)
 }, { immediate: true, deep: true })
+
+// ***************** 分类导航 ***************** //
+const currentCateg = ref(searches.keywords)
+const categories = [{ label: '全部', value: '' }]
+gostore.categories.forEach((val) => {
+  categories.push({ label: val.title + '(' + val.bookcount + ')', value: val.id + '' })
+})
+
+const handleChangeCateg = (categ: string) => {
+  const query = {}
+  if (categ) {
+    query['q'] = categ
+    query['sm'] = 'categ'
+  }
+  router.push({ name: 'booklist', query: query })
+}
 
 // ***************** 图书信息 ***************** //
 const bookCategory = (row: Book) => {
@@ -358,5 +377,11 @@ getBooks()
 
 .author-url:hover {
   text-decoration: underline;
+}
+
+.book-categ .ep-segmented {
+  --ep-segmented-item-selected-color: var(--ep-color-white);
+  --ep-segmented-item-selected-bg-color: var(--ep-color-primary);
+  --ep-border-radius-base: 16px;
 }
 </style>

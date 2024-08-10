@@ -2,7 +2,7 @@ import { useOptionsStore } from '~/stores'
 import { Book, Chapter } from '~/models'
 import { _t } from '~/locales';
 
-export const searchModeList = ['title', 'content', 'author']
+export const searchModeList = ['title', 'content', 'author', 'categ']
 
 export const santSearchMode = (sm: string) => {
   return searchModeList.includes(sm) ? sm : 'title'
