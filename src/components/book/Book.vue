@@ -4,6 +4,9 @@
   <h2>{{ currentBook.author }} </h2>
   <div class="book-info text-left">
     <h2>{{ $t('chapter.summary') }} <el-tag round effect="plain" type="info">{{ bookCategory() }}</el-tag></h2>
+    <div v-if="currentBook.rate"> 评分：
+      <component v-for="item in [1, 2, 3, 4, 5]" :key="item" :is="iconRateStar(currentBook.rate, item)" :class="iconRateStarClass(currentBook.rate, item)" />
+    </div>
     <div class="book-summary">
       <div class="summary">
         <div v-html="summary()"></div>
@@ -35,10 +38,8 @@
           <h2 class="volinfo-title">
             <el-icon @click="handleReadVol(volume)" :title="$t('chapter.read_volume_chapters')" class="read-btn">
               <IconoirMultiplePages />
-            </el-icon> {{ volume.title == currentBook.title ? $t('chapter.default_volume') : volume.title }} <xxsmall v-if="chapterData[volume.id]"> ({{ $t('chapter.total', {
-              'total':
-                chapterData[volume.id].length
-            }) }}) </xxsmall>
+            </el-icon> {{ volume.title == currentBook.title ? $t('chapter.default_volume') : volume.title }} <xxsmall v-if="chapterData[volume.id]"> ({{ $t('chapter.total', { 'total':
+              chapterData[volume.id].length }) }}) </xxsmall>
           </h2>
           <div class="volinfo-description">
             <xxsmall v-if="volume.summary" v-html="nl2br(volume.summary)" />
@@ -109,6 +110,13 @@ const currentBook: Book = reactive({
 
 const bookCategory = () => {
   return currentBook.categoryid ? gostore.categoryMap[currentBook.categoryid] : ''
+}
+
+const iconRateStar = (rate: number, idx: number) => {
+  return idx <= rate ? 'IconoirStarSolid' : 'IconoirStar'
+}
+const iconRateStarClass = (rate: number, idx: number) => {
+  return idx <= rate ? 'is-active-rate' : 'is-unactive-rate'
 }
 
 // 缩短字数过长的标题
@@ -267,6 +275,16 @@ getChapters()
 <style scoped>
 h1 {
   font-size: 2.5em;
+}
+
+.book-info .is-active-rate {
+  color: #f7ba2a;
+  vertical-align: text-bottom;
+}
+
+.book-info .is-unactive-rate {
+  color: #CCCCCC;
+  vertical-align: text-bottom;
 }
 
 .book-info .book-summary {

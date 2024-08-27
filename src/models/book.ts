@@ -10,6 +10,7 @@ export interface Book {
   wordcount?: number,
   isfinished?: number,
   latest?: string,
+  rate?: number,
 }
 
 export interface Category {

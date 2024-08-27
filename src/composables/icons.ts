@@ -3,6 +3,7 @@
 import IconCustomAddBook from '~icons/custom/addbook'
 import IconCustomExit from '~icons/custom/exit'
 
+// https://icon-sets.iconify.design/iconoir/
 // iconoir
 import IconoirAddPage from '~icons/iconoir/add-page'
 import IconoirArrowLeftCircle from '~icons/iconoir/arrow-left-circle'
@@ -33,6 +34,15 @@ import IconoirTranslate from '~icons/iconoir/translate'
 import IconoirTrash from '~icons/iconoir/trash'
 import IconoirXmark from '~icons/iconoir/xmark'
 import IconoirXmarkCircle from '~icons/iconoir/xmark-circle'
+import IconoirMore from '~icons/iconoir/more-horiz-circle'
+import IconoirEmoji from '~icons/iconoir/emoji'
+import IconoirStar from '~icons/iconoir/star'
+import IconoirStarSolid from '~icons/iconoir/star-solid'
+import IconoirRate1 from '~icons/tabler/square-rounded-number-1'
+import IconoirRate2 from '~icons/tabler/square-rounded-number-2'
+import IconoirRate3 from '~icons/tabler/square-rounded-number-3'
+import IconoirRate4 from '~icons/tabler/square-rounded-number-4'
+import IconoirRate5 from '~icons/tabler/square-rounded-number-5'
 
 export {
   IconCustomAddBook, IconCustomExit, IconoirBook,
@@ -44,4 +54,6 @@ export {
   IconoirArrowLeftCircle, IconoirNavArrowRight, IconoirNavArrowLeft, IconoirNavArrowDown,
   IconoirPage, IconoirPageEdit, IconoirAddPage, IconoirMultiplePages, IconoirPageSearch,
   IconoirGridAdd, IconoirXmarkCircle, IconoirXmark, IconoirRefreshDouble,
+  IconoirMore, IconoirEmoji,
+  IconoirStar, IconoirStarSolid, IconoirRate1, IconoirRate2, IconoirRate3, IconoirRate4, IconoirRate5,
 }

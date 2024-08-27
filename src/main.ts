@@ -17,7 +17,8 @@ import {
   IconoirPage, IconoirPageEdit, IconoirAddPage, IconoirMultiplePages, IconoirPageSearch,
   IconoirGridAdd, IconoirXmarkCircle, IconoirXmark, IconoirRefreshDouble,
   IconoirArrowLeftCircle, IconoirNavArrowRight, IconoirNavArrowLeft, IconoirNavArrowDown,
-  IconoirKey, IconCustomAddBook, IconoirCheck,
+  IconoirKey, IconCustomAddBook, IconoirCheck, IconoirMore, IconoirEmoji,
+  IconoirStar, IconoirStarSolid, IconoirRate1, IconoirRate2, IconoirRate3, IconoirRate4, IconoirRate5,
 } from '~/composables'
 
 // 全量导入取消注释
@@ -42,7 +43,8 @@ for (const [key, component] of Object.entries({
   IconoirPage, IconoirPageEdit, IconoirAddPage, IconoirMultiplePages, IconoirPageSearch,
   IconoirGridAdd, IconoirXmarkCircle, IconoirXmark, IconoirRefreshDouble,
   IconoirArrowLeftCircle, IconoirNavArrowRight, IconoirNavArrowLeft, IconoirNavArrowDown,
-  IconoirKey, IconCustomAddBook, IconoirCheck,
+  IconoirKey, IconCustomAddBook, IconoirCheck, IconoirMore, IconoirEmoji,
+  IconoirStar, IconoirStarSolid, IconoirRate1, IconoirRate2, IconoirRate3, IconoirRate4, IconoirRate5,
 })) {
   app.component(key, component)
 }

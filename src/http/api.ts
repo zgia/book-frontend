@@ -5,6 +5,7 @@ import { UserInfo, Book, Volume, Chapter, Category, SearchResult } from '~/model
 interface Params {
   id?: number,
   bookid?: number,
+  rate?: number,
   next?: number,
   words?: string,
 }
@@ -60,6 +61,10 @@ export class BookService {
 
   static async deleteBook(params: Params) {
     return request(sprintf('/book/%u', params.id), params, 'delete')
+  }
+
+  static async rateBook(params: Params) {
+    return request(sprintf('/book/%u', params.id), params, 'post')
   }
 
   static async getVolumes(params: Params) {

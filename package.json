@@ -23,7 +23,9 @@
     "vue-router": "^4.4.3"
   },
   "devDependencies": {
+    "@iconify-json/iconamoon": "^1.1.5",
     "@iconify-json/iconoir": "^1.1.44",
+    "@iconify-json/tabler": "^1.1.120",
     "@types/cors": "^2.8.12",
     "@types/node": "^20.11.21",
     "@typescript-eslint/eslint-plugin": "^8.0.1",
