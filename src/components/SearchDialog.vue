@@ -32,12 +32,13 @@ import { useOptionsStore } from '~/stores'
 import { searchShortcut } from '~/utils';
 import { searchModeList } from '~/models';
 import { _t } from '~/locales';
+import { cloneDeep } from 'lodash-es'
 
 const gostore = useOptionsStore()
 const router = useRouter()
 
 // 搜索类别，移除categ
-const searchModes = JSON.parse(JSON.stringify(searchModeList))
+const searchModes = cloneDeep(searchModeList)
 searchModes.pop()
 
 // 对话框宽度
