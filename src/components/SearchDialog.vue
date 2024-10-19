@@ -12,7 +12,7 @@
       <el-form-item prop="smode" style="margin-bottom:0;">
         <el-col :span="18" class="text-left">
           <el-radio-group v-model="searchForm.smode" :change="changeSearchMode()">
-            <el-radio v-for="sml in searchModeList" :value="sml" :key="sml">{{ $t('search.dialog_select_' + sml) }}</el-radio>
+            <el-radio v-for="sml in searchModes" :value="sml" :key="sml">{{ $t('search.dialog_select_' + sml) }}</el-radio>
           </el-radio-group>
         </el-col>
         <el-col :span="6" class="text-right">
@@ -35,6 +35,10 @@ import { _t } from '~/locales';
 
 const gostore = useOptionsStore()
 const router = useRouter()
+
+// 搜索类别，移除categ
+const searchModes = JSON.parse(JSON.stringify(searchModeList))
+searchModes.pop()
 
 // 对话框宽度
 const props = defineProps(['dgwidth'])
