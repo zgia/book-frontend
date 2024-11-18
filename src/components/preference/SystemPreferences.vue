@@ -5,7 +5,11 @@
       <el-tab-pane :label="$t('config.category')" name="category">
         <CategoryForm />
       </el-tab-pane>
-      <el-tab-pane label="Other" name="other">Other</el-tab-pane>
+      <el-tab-pane label="Other" name="other">
+        <el-descriptions title="">
+          <el-descriptions-item label="Data Size">{{ dataSize }} MB</el-descriptions-item>
+        </el-descriptions>
+      </el-tab-pane>
     </el-tabs>
     <template #footer>
       <el-divider />
@@ -17,34 +21,48 @@
   </el-dialog>
 </template>
 <script lang="ts" setup>
-import type { TabsPaneContext } from 'element-plus'
-import { useOptionsStore } from '~/stores'
-import CategoryForm from '~/components/preference/CategoryForm.vue'
+  import type { TabsPaneContext } from 'element-plus'
+  import { useOptionsStore } from '~/stores'
+  import CategoryForm from '~/components/preference/CategoryForm.vue'
+  import { BookService } from '~/http'
 
-const gostore = useOptionsStore()
+  const gostore = useOptionsStore()
 
-const activeTabName = ref('category')
-// 对话框宽度
-const props = defineProps(['dgwidth'])
+  const activeTabName = ref('category')
+  // 对话框宽度
+  const props = defineProps(['dgwidth'])
 
-const handleClickTab = (tab: TabsPaneContext, event: Event) => {
-  console.log('system preferences', tab, event)
-}
+  const handleClickTab = (tab: TabsPaneContext, event: Event) => {
+    console.log('system preferences', tab, event)
+  }
 
-// 关闭窗口
-const handleClose = (done: () => void) => {
-  hideme()
-  done()
-}
+  const dataSize = ref(0)
+  const getBooksSize = () => {
+    BookService.booksSize()
+      .then(resp => {
+        dataSize.value = resp.data.data_size
+      })
+      .catch(err => {
+        ElMessage.error('BooksSize: ' + (err.messge || err.msg))
+      })
+  }
 
-const emit = defineEmits(['hide', 'closeLoading'])
-const closeLoading = () => {
-  emit('closeLoading')
-}
+  getBooksSize()
 
-const hideme = () => {
-  gostore.dialogPopup = false
-  emit('hide')
-}
+  // 关闭窗口
+  const handleClose = (done: () => void) => {
+    hideme()
+    done()
+  }
+
+  const emit = defineEmits(['hide', 'closeLoading'])
+  const closeLoading = () => {
+    emit('closeLoading')
+  }
+
+  const hideme = () => {
+    gostore.dialogPopup = false
+    emit('hide')
+  }
 
 </script>

@@ -51,6 +51,10 @@ export class BookService {
     return request<{ 'total': number, 'items': Book[] }>('/book/books', params)
   }
 
+  static async booksSize() {
+    return request<{ 'data_size': number, 'index_size': number }>('/book/books/size')
+  }
+
   static async updateBook(params: Params) {
     return request<{ 'id': number }>(sprintf('/book/%u', params.id), params, 'post')
   }
