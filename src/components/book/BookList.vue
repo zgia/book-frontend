@@ -2,8 +2,9 @@
   <div class="book-categ">
     <el-segmented v-model="currentCateg" :options="categories" size="small" block @change="handleChangeCateg" style="margin-bottom: 5px;">
       <template #default="{ item }">
-        <div> {{ item.label }} <small class="hidden-sm-and-down">({{ item.total }})</small>
-        </div>
+        <div class="hidden-sm-and-down"> {{ item.label }} <small>({{ item.total }})</small></div>
+        <div class="hidden-sm-and-up" v-if="item.value">{{ item.small }}</div>
+        <div class="hidden-sm-and-up" v-else><el-icon><IconoirBook /></el-icon></div>
       </template>
     </el-segmented>
   </div>
@@ -190,11 +191,11 @@
   const allTotal = ref(0)
   const categories = reactive([]) as any
   gostore.categories.forEach((val) => {
-    categories.push({ label: `${val.title}`, value: `${val.id}`, total: val.bookcount || 0 })
+    categories.push({ label: val.title, value: `${val.id}`, total: val.bookcount || 0, small: val.title.substring(0, 1) })
 
     allTotal.value += (val.bookcount || 0)
   })
-  categories.unshift({ label: _t('book.all_category'), value: '', total: allTotal.value })
+  categories.unshift({ label: _t('book.all_category'), value: '', total: allTotal.value, small: 'All' })
 
   const handleChangeCateg = (categ: string) => {
     const query = {}
