@@ -1,7 +1,7 @@
 <template>
   <el-row class="login-page">
-    <el-col :xs="0" :sm="6" :md="8" :lg="8" :xl="8"></el-col>
-    <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8">
+    <el-col :xs="0" :sm="6" :md="9" :lg="9" :xl="9"></el-col>
+    <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="6">
       <el-image class="logo" src="logo.png" fit="cover" />
       <el-form hide-required-asterisk :model="loginForm" @keyup.enter="submitForm(ruleFormRef)" ref="ruleFormRef" :rules="rules" label-width="120px" label-position="top" size="large"
         class="login-form">
