@@ -2,7 +2,7 @@
   <div class="book-categ">
     <el-segmented v-model="currentCateg" :options="categories" size="small" block @change="handleChangeCateg" style="margin-bottom: 5px;">
       <template #default="{ item }">
-        <div class="hidden-sm-and-down"> {{ item.label }} <small>({{ item.total }})</small></div>
+        <div class="hidden-xs-only"> {{ item.value ? item.label : $t('book.all_category') }} <small class="hidden-sm-and-down">({{ item.total }})</small></div>
         <div class="hidden-sm-and-up" v-if="item.value">{{ item.small }}</div>
         <div class="hidden-sm-and-up" v-else><el-icon><IconoirBook /></el-icon></div>
       </template>
