@@ -21,14 +21,14 @@
           <el-rate v-model="bookForm.rate" />
         </el-form-item>
       </el-col>
-      <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+      <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
         <el-form-item :label="$t('book.category')" prop="source">
-          <el-select v-model="bookForm.categoryid" clearable :placeholder="$t('book.select_category_placeholder')">
-            <el-option v-for="item, key in gostore.categories" :key="key" :label="item.title" :value="item.id" />
-          </el-select>
+          <el-radio-group v-model="bookForm.categoryid">
+            <el-radio v-for="item, key in gostore.categories" :value="item.id" :key="key">{{ item.title }}</el-radio>
+          </el-radio-group>
         </el-form-item>
       </el-col>
-      <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+      <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
         <el-form-item :label="$t('book.source')" prop="source">
           <el-input v-model="bookForm.source" clearable autocomplete="off" :placeholder="$t('book.source_placeholder')" />
         </el-form-item>

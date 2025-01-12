@@ -1,7 +1,8 @@
 <template>
   <h1>{{ currentBook.title }}<xxsmall>{{ currentBook.alias }}</xxsmall>
   </h1>
-  <h2>{{ currentBook.author }} </h2>
+  <h2>{{ currentBook.author }} <xxsmall v-if="currentBook.author_former_name">曾用名: {{ currentBook.author_former_name }}</xxsmall>
+  </h2>
   <div class="book-info text-left">
     <h2>{{ $t('chapter.summary') }} <el-tag round effect="plain" type="info">{{ bookCategory() }}</el-tag></h2>
     <div v-if="currentBook.rate"> 评分：
@@ -38,8 +39,10 @@
           <h2 class="volinfo-title">
             <el-icon @click="handleReadVol(volume)" :title="$t('chapter.read_volume_chapters')" class="read-btn">
               <IconoirMultiplePages />
-            </el-icon> {{ volume.title == currentBook.title ? $t('chapter.default_volume') : volume.title }} <xxsmall v-if="chapterData[volume.id]"> ({{ $t('chapter.total', { 'total':
-              chapterData[volume.id].length }) }}) </xxsmall>
+            </el-icon> {{ volume.title == currentBook.title ? $t('chapter.default_volume') : volume.title }} <xxsmall v-if="chapterData[volume.id]"> ({{ $t('chapter.total', {
+              'total':
+                chapterData[volume.id].length
+            }) }}) </xxsmall>
           </h2>
           <div class="volinfo-description">
             <xxsmall v-if="volume.summary" v-html="nl2br(volume.summary)" />
@@ -65,212 +68,213 @@
   </Suspense>
 </template>
 <script lang="ts" setup>
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { IconoirDownloadCircle } from '~/composables'
-import { BookService } from '~/http'
-import { Book, Chapter, Volume, setBookInfo } from '~/models'
-import { nl2br, intval } from '~/utils'
-import { useOptionsStore } from '~/stores'
-import { _t } from '~/locales';
+  import { ElMessage, ElMessageBox } from 'element-plus'
+  import { IconoirDownloadCircle } from '~/composables'
+  import { BookService } from '~/http'
+  import { Book, Chapter, Volume, setBookInfo } from '~/models'
+  import { nl2br, intval } from '~/utils'
+  import { useOptionsStore } from '~/stores'
+  import { _t } from '~/locales';
 
-const gostore = useOptionsStore()
-gostore.headerIndex = 'book'
+  const gostore = useOptionsStore()
+  gostore.headerIndex = 'book'
 
-const router = useRouter()
-const route = useRoute()
-const bookid = intval(route.params.bookid)
+  const router = useRouter()
+  const route = useRoute()
+  const bookid = intval(route.params.bookid)
 
-// 加载动画
-const fsLoading = ref(false)
-const openLoading = () => {
-  fsLoading.value = true
-}
-const closeLoading = () => {
-  fsLoading.value = false
-}
-
-const editMode = ref(false)
-
-// 调整页面宽度
-const screenWidth = ref(document.body.clientWidth)
-window.onresize = () => {
-  screenWidth.value = document.body.clientWidth
-}
-
-// 当前操作的
-const currentBook: Book = reactive({
-  id: 0,
-  categoryid: '',
-  title: '',
-  author: '',
-  summary: '',
-  source: '',
-  cover: '',
-})
-
-const bookCategory = () => {
-  return currentBook.categoryid ? gostore.categoryMap[currentBook.categoryid] : ''
-}
-
-const iconRateStar = (rate: number, idx: number) => {
-  return idx <= rate ? 'IconoirStarSolid' : 'IconoirStar'
-}
-const iconRateStarClass = (rate: number, idx: number) => {
-  return idx <= rate ? 'is-active-rate' : 'is-unactive-rate'
-}
-
-// 缩短字数过长的标题
-const subTitle = (title: string, len = 20) => {
-  if (screenWidth.value <= 992) {
-    len = 25
+  // 加载动画
+  const fsLoading = ref(false)
+  const openLoading = () => {
+    fsLoading.value = true
+  }
+  const closeLoading = () => {
+    fsLoading.value = false
   }
 
-  return title.length > len ? title.substring(0, len) + '...' : title
-}
+  const editMode = ref(false)
 
-const summary = () => {
-  return nl2br(currentBook.summary);
-}
+  // 调整页面宽度
+  const screenWidth = ref(document.body.clientWidth)
+  window.onresize = () => {
+    screenWidth.value = document.body.clientWidth
+  }
 
-// ***************** 编辑图书 ***************** //
-const editBookDialog = defineAsyncComponent(() => import('./EditBookDialog.vue'))
-const editBookVisible = ref(false)
+  // 当前操作的
+  const currentBook: Book = reactive({
+    id: 0,
+    categoryid: '',
+    title: '',
+    author: '',
+    author_former_name: '',
+    summary: '',
+    source: '',
+    cover: '',
+  })
 
-// 更新图书信息
-const afterBookUpdated = (book: Book) => {
-  setBookInfo(currentBook, book)
-}
+  const bookCategory = () => {
+    return currentBook.categoryid ? gostore.categoryMap[currentBook.categoryid] : ''
+  }
 
-// 编辑图书
-const handleEditBook = () => {
-  openLoading()
+  const iconRateStar = (rate: number, idx: number) => {
+    return idx <= rate ? 'IconoirStarSolid' : 'IconoirStar'
+  }
+  const iconRateStarClass = (rate: number, idx: number) => {
+    return idx <= rate ? 'is-active-rate' : 'is-unactive-rate'
+  }
 
-  editBookVisible.value = true
-}
-
-// ***************** 下载图书 ***************** //
-const downloading = ref(false)
-const handleDownload = () => {
-  ElMessageBox.confirm(
-    _t('chapter.confirm_download_chapter', { 'title': currentBook.title }),
-    currentBook.title,
-    {
-      buttonSize: 'small',
-      showClose: false,
-      confirmButtonText: _t('common.btn_download'),
-      cancelButtonText: _t('common.btn_cancel'),
-      type: 'info',
-      icon: markRaw(IconoirDownloadCircle)
+  // 缩短字数过长的标题
+  const subTitle = (title: string, len = 20) => {
+    if (screenWidth.value <= 992) {
+      len = 25
     }
-  )
-    .then(() => {
-      downloading.value = true
 
-      ElMessage.info(_t('book.start_downloading'))
+    return title.length > len ? title.substring(0, len) + '...' : title
+  }
 
-      const filename = currentBook.title + '.zip'
-      BookService.download({ id: bookid }, filename)
-        .then(() => {
-          ElMessage.success(_t('book.book_downloaded_ok', { 'title': filename }))
-        })
-        .catch(err => {
-          ElMessage.error(_t('book.book_downloaded_error', { 'title': (err.messge || err.msg) }))
-        })
-        .finally(() => {
-          downloading.value = false
-        })
-    })
-    .catch(() => {
-      // 放弃下载
-    })
-}
+  const summary = () => {
+    return nl2br(currentBook.summary);
+  }
 
-// ***************** 删除章节 ***************** //
-const handleDelete = (index: number, row: Chapter, volumeid: number) => {
+  // ***************** 编辑图书 ***************** //
+  const editBookDialog = defineAsyncComponent(() => import('./EditBookDialog.vue'))
+  const editBookVisible = ref(false)
 
-  ElMessageBox.confirm(
-    _t('chapter.confirm_delete_chapter', { 'title': row.title }),
-    currentBook.title,
-    {
-      buttonSize: 'small',
-      showClose: false,
-      confirmButtonText: _t('common.btn_delete'),
-      confirmButtonClass: 'ep-button--danger',
-      cancelButtonText: _t('common.btn_cancel'),
-      type: 'warning',
-    }
-  )
-    .then(() => {
-      BookService.deleteChapter({ bookid: bookid, id: row.id })
-        .then(() => {
-          chapterData[volumeid].splice(index, 1)
-          ElMessage.success(_t('chapter.chapter_deleted_ok'))
-        })
-        .catch(err => {
-          ElMessage.error('CHAPERR: ' + _t('common.deleted_error', { 'err': (err.messge || err.msg) }))
-        })
-    })
-    .catch(() => {
-      // 不删除
-    })
-}
+  // 更新图书信息
+  const afterBookUpdated = (book: Book) => {
+    setBookInfo(currentBook, book)
+  }
 
+  // 编辑图书
+  const handleEditBook = () => {
+    openLoading()
 
-// 编辑章节
-const handleEdit = (bookid: number, chapterid = 0) => {
-  router.push({ name: 'editchapter', params: { 'bookid': bookid, chapterid: chapterid } })
-}
+    editBookVisible.value = true
+  }
 
-// 阅读某章节
-const handleRead = (bookid: number, chapterid: number) => {
-  router.push({ name: 'chapter', params: { 'bookid': bookid, chapterid: chapterid } })
-}
-
-// 读当前卷
-const handleReadVol = (vol: Volume) => {
-  router.push({ name: 'volumechapters', params: { 'bookid': currentBook.id, volumeid: vol.id } })
-}
-
-// 卷管理
-const handleVolume = (bookid: number) => {
-  router.push({ name: 'volumes', params: { 'bookid': bookid } })
-}
-
-// ***************** 章节 ***************** //
-const chapterData = reactive({ string: [] })
-const volumeData: Volume[] = reactive([])
-
-// 没有卷，需要添加一个卷，才能添加新的章节
-const noVolume = ref(false)
-
-const getChapters = () => {
-  BookService.getChapters({ bookid: bookid })
-    .then(resp => {
-      setBookInfo(currentBook, resp.data.book)
-
-      if (resp.data.volumes.length == 1 && resp.data.volumes[0].id == 0) {
-        noVolume.value = true
-
-        ElMessage.error('CHAPERR：' + _t('chapter.add_volume_first'))
-
-        return
+  // ***************** 下载图书 ***************** //
+  const downloading = ref(false)
+  const handleDownload = () => {
+    ElMessageBox.confirm(
+      _t('chapter.confirm_download_chapter', { 'title': currentBook.title }),
+      currentBook.title,
+      {
+        buttonSize: 'small',
+        showClose: false,
+        confirmButtonText: _t('common.btn_download'),
+        cancelButtonText: _t('common.btn_cancel'),
+        type: 'info',
+        icon: markRaw(IconoirDownloadCircle)
       }
+    )
+      .then(() => {
+        downloading.value = true
 
-      volumeData.length = 0
-      volumeData.push(...resp.data.volumes)
+        ElMessage.info(_t('book.start_downloading'))
 
-      for (var i in resp.data.items) {
-        if (resp.data.items[i]) {
-          chapterData[i] = resp.data.items[i]
+        const filename = currentBook.title + '.zip'
+        BookService.download({ id: bookid }, filename)
+          .then(() => {
+            ElMessage.success(_t('book.book_downloaded_ok', { 'title': filename }))
+          })
+          .catch(err => {
+            ElMessage.error(_t('book.book_downloaded_error', { 'title': (err.messge || err.msg) }))
+          })
+          .finally(() => {
+            downloading.value = false
+          })
+      })
+      .catch(() => {
+        // 放弃下载
+      })
+  }
+
+  // ***************** 删除章节 ***************** //
+  const handleDelete = (index: number, row: Chapter, volumeid: number) => {
+
+    ElMessageBox.confirm(
+      _t('chapter.confirm_delete_chapter', { 'title': row.title }),
+      currentBook.title,
+      {
+        buttonSize: 'small',
+        showClose: false,
+        confirmButtonText: _t('common.btn_delete'),
+        confirmButtonClass: 'ep-button--danger',
+        cancelButtonText: _t('common.btn_cancel'),
+        type: 'warning',
+      }
+    )
+      .then(() => {
+        BookService.deleteChapter({ bookid: bookid, id: row.id })
+          .then(() => {
+            chapterData[volumeid].splice(index, 1)
+            ElMessage.success(_t('chapter.chapter_deleted_ok'))
+          })
+          .catch(err => {
+            ElMessage.error('CHAPERR: ' + _t('common.deleted_error', { 'err': (err.messge || err.msg) }))
+          })
+      })
+      .catch(() => {
+        // 不删除
+      })
+  }
+
+
+  // 编辑章节
+  const handleEdit = (bookid: number, chapterid = 0) => {
+    router.push({ name: 'editchapter', params: { 'bookid': bookid, chapterid: chapterid } })
+  }
+
+  // 阅读某章节
+  const handleRead = (bookid: number, chapterid: number) => {
+    router.push({ name: 'chapter', params: { 'bookid': bookid, chapterid: chapterid } })
+  }
+
+  // 读当前卷
+  const handleReadVol = (vol: Volume) => {
+    router.push({ name: 'volumechapters', params: { 'bookid': currentBook.id, volumeid: vol.id } })
+  }
+
+  // 卷管理
+  const handleVolume = (bookid: number) => {
+    router.push({ name: 'volumes', params: { 'bookid': bookid } })
+  }
+
+  // ***************** 章节 ***************** //
+  const chapterData = reactive({ string: [] })
+  const volumeData: Volume[] = reactive([])
+
+  // 没有卷，需要添加一个卷，才能添加新的章节
+  const noVolume = ref(false)
+
+  const getChapters = () => {
+    BookService.getChapters({ bookid: bookid })
+      .then(resp => {
+        setBookInfo(currentBook, resp.data.book)
+
+        if (resp.data.volumes.length == 1 && resp.data.volumes[0].id == 0) {
+          noVolume.value = true
+
+          ElMessage.error('CHAPERR：' + _t('chapter.add_volume_first'))
+
+          return
         }
-      }
-    })
-    .catch(err => {
-      ElMessage.error('CHAPERR: ' + (err.messge || err.msg))
-    })
-}
 
-getChapters()
+        volumeData.length = 0
+        volumeData.push(...resp.data.volumes)
+
+        for (var i in resp.data.items) {
+          if (resp.data.items[i]) {
+            chapterData[i] = resp.data.items[i]
+          }
+        }
+      })
+      .catch(err => {
+        ElMessage.error('CHAPERR: ' + (err.messge || err.msg))
+      })
+  }
+
+  getChapters()
 </script>
 <style scoped>
 h1 {

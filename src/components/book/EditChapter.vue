@@ -11,7 +11,7 @@
       <el-input ref="titleRef" v-model.trim="opForm.title" clearable :autofocus="true" autocomplete="off" />
     </el-form-item>
     <el-form-item :label="$t('chapter.edit_content_label')" prop="content">
-      <el-input type="textarea" v-model="opForm.content" rows="16" autocomplete="off" />
+      <el-input type="textarea" v-model="opForm.content" :rows="16" autocomplete="off" />
     </el-form-item>
     <el-form-item :label="$t('chapter.edit_ext_label')">
       <el-col :span="replaSpan">
@@ -36,13 +36,13 @@
   </el-form>
   <div>
     <el-button-group>
-      <el-button icon="IconoirPageSearch" type="primary" @click="replaceText()">{{ $t('chapter.btn_replace') }}</el-button>
-      <el-button icon="IconoirInfinite" type="primary" @click="formatContent()">{{ $t('chapter.btn_format') }}</el-button>
-      <el-button icon="IconoirRefreshDouble" type="primary" @click="restoreText()">{{ $t('chapter.btn_restore') }}</el-button>
+      <el-button icon="IconoirPageSearch" type="primary" style="width: 100px;" @click="replaceText()">{{ $t('chapter.btn_replace') }}</el-button>
+      <el-button icon="IconoirInfinite" type="primary" style="width: 100px;" @click="formatContent()">{{ $t('chapter.btn_format') }}</el-button>
+      <el-button icon="IconoirRefreshDouble" type="primary" style="width: 100px;" @click="restoreText()">{{ $t('chapter.btn_restore') }}</el-button>
     </el-button-group>
   </div>
   <div style="padding-top: 10px;">
-    <el-button size="large" icon="IconoirCheck" type="primary" style="width: 256px;" @click="submitForm(ruleFormRef)">{{ $t('common.btn_save') }}</el-button>
+    <el-button icon="IconoirCheck" type="success" style="width: 300px;" @click="submitForm(ruleFormRef)">{{ $t('common.btn_save') }}</el-button>
   </div>
 </template>
 <script lang="ts" setup>

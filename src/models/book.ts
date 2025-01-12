@@ -4,6 +4,7 @@ export interface Book {
   title: string,
   alias?: string,
   author?: string,
+  author_former_name?: string,
   summary?: string,
   source?: string,
   cover?: string,
