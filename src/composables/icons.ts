@@ -36,6 +36,7 @@ import IconoirXmark from '~icons/iconoir/xmark'
 import IconoirXmarkCircle from '~icons/iconoir/xmark-circle'
 import IconoirMore from '~icons/iconoir/more-horiz-circle'
 import IconoirEmoji from '~icons/iconoir/emoji'
+import IconoirGroup from '~icons/iconoir/group'
 import IconoirStar from '~icons/iconoir/star'
 import IconoirStarSolid from '~icons/iconoir/star-solid'
 import IconoirRate1 from '~icons/tabler/square-rounded-number-1'
@@ -54,6 +55,6 @@ export {
   IconoirArrowLeftCircle, IconoirNavArrowRight, IconoirNavArrowLeft, IconoirNavArrowDown,
   IconoirPage, IconoirPageEdit, IconoirAddPage, IconoirMultiplePages, IconoirPageSearch,
   IconoirGridAdd, IconoirXmarkCircle, IconoirXmark, IconoirRefreshDouble,
-  IconoirMore, IconoirEmoji,
+  IconoirMore, IconoirEmoji, IconoirGroup,
   IconoirStar, IconoirStarSolid, IconoirRate1, IconoirRate2, IconoirRate3, IconoirRate4, IconoirRate5,
 }

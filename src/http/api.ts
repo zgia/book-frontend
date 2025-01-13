@@ -1,6 +1,6 @@
 import { request, download } from './request'
 import { sprintf } from 'sprintf-js'
-import { UserInfo, Book, Volume, Chapter, Category, SearchResult } from '~/models'
+import { UserInfo, Book, Volume, Chapter, Category, SearchResult, Author } from '~/models'
 
 interface Params {
   id?: number,
@@ -105,6 +105,25 @@ export class BookService {
 
   static async deleteChapter(params: Params) {
     return request(sprintf('/book/%u/chapter/%u', params.bookid, params.id), {}, 'delete')
+  }
+}
+
+
+export class AuthorService {
+  static async list(params: object) {
+    return request<{ 'total': number, 'items': Author[] }>('/author/index', params)
+  }
+
+  static async updateAuthor(params: Params) {
+    return request<{ 'id': number }>(sprintf('/author/%u', params.id), params, 'post')
+  }
+
+  static async getAuthor(params: Params) {
+    return request<Author>(sprintf('/author/%u', params.id))
+  }
+
+  static async deleteAuthor(params: Params) {
+    return request(sprintf('/author/%u', params.id), params, 'delete')
   }
 }
 

@@ -74,6 +74,15 @@ export const routes = [
     meta: { scrollToTop: true }
   },
   {
+    name: 'author',
+    path: '/author/index',
+    components:
+    {
+      default: () => import('~/components/author/Index.vue'),
+      header: baseHeader
+    }
+  },
+  {
     name: 'notfound',
     path: '/:pathMatch(.*)*',
     component: () => import('~/components/NotFound.vue')

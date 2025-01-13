@@ -47,3 +47,10 @@ export interface SearchResult {
   volTitle?: string,
   content: string,
 }
+
+export interface Author {
+  id: number,
+  name: string,
+  former_name?: string,
+  books?: [],
+}

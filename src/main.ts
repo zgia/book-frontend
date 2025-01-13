@@ -12,7 +12,7 @@ import router from '~/routers'
 
 // 全局图标
 import {
-  IconoirBook, IconCustomExit, IconoirSearch,
+  IconoirBook, IconCustomExit, IconoirSearch, IconoirGroup,
   IconoirEdit, IconoirTrash, IconoirInfinite, IconoirSettings, IconoirPeopleTag,
   IconoirPage, IconoirPageEdit, IconoirAddPage, IconoirMultiplePages, IconoirPageSearch,
   IconoirGridAdd, IconoirXmarkCircle, IconoirXmark, IconoirRefreshDouble,
@@ -38,7 +38,7 @@ const pinia = createPinia()
 const app = createApp(VueApp)
 
 for (const [key, component] of Object.entries({
-  IconoirBook, IconCustomExit, IconoirSearch,
+  IconoirBook, IconCustomExit, IconoirSearch, IconoirGroup,
   IconoirEdit, IconoirTrash, IconoirInfinite, IconoirSettings, IconoirPeopleTag,
   IconoirPage, IconoirPageEdit, IconoirAddPage, IconoirMultiplePages, IconoirPageSearch,
   IconoirGridAdd, IconoirXmarkCircle, IconoirXmark, IconoirRefreshDouble,

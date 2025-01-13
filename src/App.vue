@@ -29,9 +29,9 @@ const lostore = useLocaleStore()
 
 const VITE_COPYRIGHT = import.meta.env.VITE_COPYRIGHT
 
-// 更改分页导航中文短语
-zhCN.el.pagination.total = '共 {total} 部书'
-zhTW.el.pagination.total = '共 {total} 部書'
+// // 更改分页导航中文短语
+// zhCN.el.pagination.total = '共 {total} 部书'
+// zhTW.el.pagination.total = '共 {total} 部書'
 
 // 设置网页Title
 const setWebTitle = () => {
