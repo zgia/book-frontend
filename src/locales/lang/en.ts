@@ -13,6 +13,7 @@ export default {
     summary: 'Summary',
     latest: 'Latest',
     rate: 'Rate',
+    stars_x: '{star} Stars',
     title_placeholder: 'Book title, such as Gone with the wind',
     alias_placeholder: 'Book title alias',
     author_placeholder: 'Author',

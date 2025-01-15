@@ -9,6 +9,8 @@ import IconoirAddPage from '~icons/iconoir/add-page'
 import IconoirArrowLeftCircle from '~icons/iconoir/arrow-left-circle'
 import IconoirBook from '~icons/iconoir/book'
 import IconoirCheck from '~icons/iconoir/check'
+import IconoirCheckCircled from '~icons/iconoir/check-circle'
+import IconoirCheckCircledSolid from '~icons/iconoir/check-circle-solid'
 import IconoirDownload from '~icons/iconoir/download'
 import IconoirDownloadCircle from '~icons/iconoir/download-circle'
 import IconoirEdit from '~icons/iconoir/edit'
@@ -37,6 +39,7 @@ import IconoirXmarkCircle from '~icons/iconoir/xmark-circle'
 import IconoirMore from '~icons/iconoir/more-horiz-circle'
 import IconoirEmoji from '~icons/iconoir/emoji'
 import IconoirGroup from '~icons/iconoir/group'
+import IconoirStarDashed from '~icons/iconoir/star-dashed'
 import IconoirStar from '~icons/iconoir/star'
 import IconoirStarSolid from '~icons/iconoir/star-solid'
 import IconoirRate1 from '~icons/tabler/square-rounded-number-1'
@@ -49,12 +52,12 @@ export {
   IconCustomAddBook, IconCustomExit, IconoirBook,
   IconoirTranslate, IconoirKey, IconoirPeopleTag,
   IconoirSunLight, IconoirHalfMoon, IconoirSettings,
-  IconoirCheck, IconoirDownloadCircle, IconoirDownload,
+  IconoirCheck, IconoirCheckCircled, IconoirCheckCircledSolid, IconoirDownloadCircle, IconoirDownload,
   IconoirEdit, IconoirTrash, IconoirInfinite, IconoirSearch,
   IconoirFastArrowRight, IconoirFastArrowLeft,
   IconoirArrowLeftCircle, IconoirNavArrowRight, IconoirNavArrowLeft, IconoirNavArrowDown,
   IconoirPage, IconoirPageEdit, IconoirAddPage, IconoirMultiplePages, IconoirPageSearch,
   IconoirGridAdd, IconoirXmarkCircle, IconoirXmark, IconoirRefreshDouble,
   IconoirMore, IconoirEmoji, IconoirGroup,
-  IconoirStar, IconoirStarSolid, IconoirRate1, IconoirRate2, IconoirRate3, IconoirRate4, IconoirRate5,
+  IconoirStarDashed, IconoirStar, IconoirStarSolid, IconoirRate1, IconoirRate2, IconoirRate3, IconoirRate4, IconoirRate5,
 }

@@ -13,6 +13,7 @@ export default {
     summary: '簡介',
     latest: '最後更新',
     rate: '評分',
+    stars_x: '{star} 星',
     title_placeholder: '書名，例如：百年孤寂',
     alias_placeholder: '其他名稱，半路改名的',
     author_placeholder: '作者',

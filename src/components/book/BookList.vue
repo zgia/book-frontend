@@ -19,10 +19,18 @@
     </el-table-column>
     <el-table-column :label="$t('book.rate')" width="100" v-if="showAuthor">
       <template #default="scope">
-        <div v-if="scope.row.rate">
-          <component :is="iconRate(scope.row)" />
+        <div @click="handleRate(scope.$index, scope.row)" class="ep-rate book-rate">
+          <div :title="$t('book.stars_x', { star: scope.row.rate })" v-if="scope.row.rate">
+            <el-icon>
+              <component :is="iconRate(scope.row)" />
+            </el-icon>
+          </div>
+          <div :title="$t('book.rate')" v-else>
+            <el-icon>
+              <IconoirStarDashed />
+            </el-icon>
+          </div>
         </div>
-        <div v-else>-</div>
       </template>
     </el-table-column>
     <el-table-column :label="$t('book.category')" width="140" v-if="showAuthor">
@@ -32,26 +40,30 @@
     </el-table-column>
     <el-table-column :label="$t('book.author')" width="140" v-if="showAuthor">
       <template #default="scope">
-        <div v-if="scope.row.author"><router-link :to="authorUrl(scope.row)" class="ep-link author-url">{{ scope.row.author }}</router-link></div>
+        <div v-if="scope.row.author">
+          <router-link :to="authorUrl(scope.row)" class="ep-link author-url">{{ scope.row.author }}</router-link>
+        </div>
         <div v-else>{{ $t('book.unkown_author') }}</div>
       </template>
     </el-table-column>
     <el-table-column :label="$t('book.wordcount')" width="100" v-if="showAuthor">
       <template #default="scope">
-        <div v-html="wc2Wan(scope.row.wordcount)"></div>
+        <div class="book-wordcount" :title="scope.row.wordcount">{{ wc2Wan(scope.row.wordcount) }}</div>
       </template>
     </el-table-column>
     <el-table-column :label="$t('book.latest')" width="100" v-if="showAuthor">
       <template #default="scope">
-        <div v-if="scope.row.isfinished" :title="$t('book.finished_book')"><el-icon>
-            <IconoirCheck />
-          </el-icon></div>
+        <div v-if="scope.row.isfinished" :title="$t('book.finished_book')">
+          <el-icon>
+            <IconoirCheckCircled />
+          </el-icon>
+        </div>
         <div :title="scope.row.latest" v-else><small>{{ latestChapter(scope.row) }}</small></div>
       </template>
     </el-table-column>
     <el-table-column :label="$t('book.summary')" v-if="showSummary">
       <template #default="scope">
-        <div style="text-align: left;" v-html="subSummary(scope.row.summary)"></div>
+        <div class="book-summary" v-html="subSummary(scope.row.summary)"></div>
       </template>
     </el-table-column>
     <el-table-column :label="$t('common.operation')" width="120">
@@ -452,11 +464,30 @@
 .author-url {
   color: var(--ep-text-color-primary);
   font-weight: normal;
+  font-size: smaller;
   text-decoration: none;
 }
 
 .author-url:hover {
   text-decoration: underline;
+}
+
+.book-summary {
+  text-align: left;
+  font-size: smaller;
+}
+
+.book-wordcount {
+  font-size: smaller;
+}
+
+.book-rate {
+  cursor: pointer;
+}
+
+.book-rate .ep-icon:hover {
+  color: var(--ep-rate-fill-color);
+  transform: scale(1.15);
 }
 
 .book-categ .ep-segmented {

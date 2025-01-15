@@ -12,14 +12,16 @@
     <el-table-column type="index" prop="cover" :label="$t('volume.cover')" width="300">
       <template #default="scope">
         <el-image v-if="scope.row.cover" :preview-src-list="coverPreviewList" :initial-index="scope.$index" :src="scope.row.cover" fit="cover" loading="lazy" :preview-teleported="true" />
+        <div v-else>-</div>
       </template>
     </el-table-column>
     <el-table-column :label="$t('volume.summary')">
       <template #default="scope">
-        <div style="text-align:left;line-height:40px;font-size:larger;" v-html="nl2br(scope.row.summary)" />
+        <div v-if="scope.row.summary" style="text-align:left;line-height:40px;font-size:larger;" v-html="nl2br(scope.row.summary)" />
+        <div v-else>-</div>
       </template>
     </el-table-column>
-    <el-table-column :label="$t('common.operation')" width="100">
+    <el-table-column fixed="right" :label="$t('common.operation')" width="100">
       <template #default="scope">
         <el-button-group>
           <el-button text size="small" icon="IconoirEdit" @click="handleEdit(scope.$index, scope.row)" />

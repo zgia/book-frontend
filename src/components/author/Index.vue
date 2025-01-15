@@ -33,10 +33,9 @@
   <el-backtop />
 </template>
 <script lang="ts" setup>
-  import { h } from 'vue'
-  import { onBeforeRouteUpdate } from 'vue-router'
-  import { ElMessage, ElMessageBox, ElRate } from 'element-plus'
+  import { ElMessage, ElMessageBox } from 'element-plus'
   import { AuthorService } from '~/http'
+  import { Author } from '~/models'
   import { intval, dialogWidth, defaultDialogWidth } from '~/utils'
   import { useOptionsStore } from '~/stores'
   import { _t } from '~/locales'
