@@ -1,0 +1,77 @@
+// :root {
+//   --ep-color-primary: red;
+// }
+
+body {
+  font-family:
+    'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+}
+
+a {
+  color: var(--ep-color-primary);
+}
+
+code {
+  border-radius: 2px;
+  padding: 2px 4px;
+  background-color: var(--ep-color-primary-light-9);
+  color: var(--ep-color-primary);
+}
+
+xxsmall {
+  font-size: xx-small;
+}
+
+.ep-button--text {
+  margin-right: 15px;
+}
+
+.ep-button--default {
+  padding: 5px 11px;
+}
+
+.table-head th.ep-table__cell {
+  background-color: var(--ep-color-info-light-9) !important;
+}
+
+.ep-table .cell {
+  text-align: center;
+}
+
+.search-area {
+  min-width: 200px;
+}
+
+@media screen and (min-device-width: 640px) {
+  .search-area {
+    width: 500px;
+  }
+}
+
+@media screen and (max-device-width: 640px) {
+  .header-title {
+    display: none;
+  }
+
+  .ep-backtop {
+    right: 20px !important;
+    bottom: 20px !important;
+  }
+}
+
+.search-area .ep-input {
+  width: 100% !important;
+}
+
+.btn-search {
+  padding-left: 11px !important;
+  padding-right: 11px !important;
+}
+
+.dialog-divider {
+  margin-top: 0;
+}
