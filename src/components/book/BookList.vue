@@ -344,7 +344,7 @@
       // 小屏幕时，增大编辑图书对话框的宽度
       dgWidth.value = dialogWidth(sw)
     },
-    { immediate: true, deep: true },
+    { immediate: true, deep: true }
   )
 
   // ***************** 分类导航 ***************** //
@@ -437,7 +437,7 @@
 
   // ***************** 编辑 ***************** //
   const editBookDialog = defineAsyncComponent(
-    () => import('./EditBookDialog.vue'),
+    () => import('./EditBookDialog.vue')
   )
   const editBookVisible = ref(false)
 
@@ -471,7 +471,7 @@
         confirmButtonText: _t('common.btn_finish'),
         cancelButtonText: _t('common.btn_cancel'),
         type: 'info',
-      },
+      }
     )
       .then(() => {
         BookService.finish({ id: row.id })
@@ -481,7 +481,7 @@
           })
           .catch((err) => {
             ElMessage.error(
-              _t('book.book_finished_error', { err: err.messge || err.msg }),
+              _t('book.book_finished_error', { err: err.messge || err.msg })
             )
           })
       })
@@ -523,12 +523,12 @@
                 _t('book.book_rated_ok', {
                   title: row.title,
                   rate: rateVal.value,
-                }),
+                })
               )
             })
             .catch((err) => {
               ElMessage.error(
-                _t('book.book_rated_error', { err: err.messge || err.msg }),
+                _t('book.book_rated_error', { err: err.messge || err.msg })
               )
             })
         }
@@ -552,7 +552,7 @@
         confirmButtonClass: 'ep-button--danger',
         cancelButtonText: _t('common.btn_cancel'),
         type: 'warning',
-      },
+      }
     )
       .then(() => {
         BookService.deleteBook({ id: row.id })
@@ -563,7 +563,7 @@
           .catch((err) => {
             ElMessage.error(
               'BOOKERR: ' +
-                _t('common.deleted_error', { err: err.messge || err.msg }),
+                _t('common.deleted_error', { err: err.messge || err.msg })
             )
           })
       })
@@ -612,7 +612,7 @@
       column['property'],
       column['order'],
       prop,
-      order,
+      order
     )
 
     if (
@@ -646,7 +646,7 @@
       'handleRateFilter',
       value,
       column['property'],
-      row[column['property']],
+      row[column['property']]
     )
 
     // return `${row[column['property']]}` === value

@@ -1,26 +1,32 @@
 import { createI18n } from 'vue-i18n'
 import { useNavigatorLanguage } from '@vueuse/core'
 
-import en from './lang/en'
+import enUS from './lang/en-us'
 import zhCN from './lang/zh-cn'
 import zhTW from './lang/zh-tw'
 
-// 'zh-CN', 'zh', 'en', 'zh-TW', 'zh-HK'
+// 'zh-CN', 'zh', 'en', 'enUS', 'zh-TW', 'zh-HK'
 const { language } = useNavigatorLanguage()
 
-export const navigatorLanguage = () => {
-  let lang = ''
+export const defaultLanguage = () => {
+  let lang = localStorage.getItem('language')
+  if (lang) {
+    return lang
+  }
+
   switch (language.value) {
-    case 'zh':
-    case 'zh-CN':
-      lang = 'zhCN'
+    case 'en':
+    case 'en-US':
+      lang = 'enUS'
       break
     case 'zh-TW':
     case 'zh-HK':
       lang = 'zhTW'
       break
+    case 'zh':
+    case 'zh-CN':
     default:
-      lang = 'en'
+      lang = 'zhCN'
       break
   }
 
@@ -31,11 +37,11 @@ export const navigatorLanguage = () => {
 export const i18n = createI18n({
   legacy: false,
   globalInjection: true, // 全局模式，可以直接使用 $t
-  locale: localStorage.getItem('language') || navigatorLanguage(),
+  locale: defaultLanguage(),
   messages: {
     zhCN,
     zhTW,
-    en,
+    enUS,
   },
 })
 

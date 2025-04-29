@@ -198,7 +198,7 @@
         toggleLang('zhTW')
         break
       case 'locale_en':
-        toggleLang('en')
+        toggleLang('enUS')
         break
       case 'sysp':
         showSystemPreferencesDialog()

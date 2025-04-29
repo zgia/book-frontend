@@ -1,5 +1,5 @@
 export default {
-  name: 'en',
+  name: 'en-US',
   app: {
     title: 'Library',
   },

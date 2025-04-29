@@ -1,6 +1,6 @@
 import { useOptionsStore } from '~/stores'
 import { Book, Chapter } from '~/models'
-import { _t } from '~/locales'
+import { _t, defaultLanguage } from '~/locales'
 
 export const searchModeList = ['title', 'content', 'author', 'categ']
 
@@ -20,12 +20,12 @@ export const setChapInfo = (
   dist:
     | Chapter
     | {
-        id: number
-        title: string
-        content: string
-        volumeid: string
-        volumeTitle: string
-      },
+      id: number
+      title: string
+      content: string
+      volumeid: string
+      volumeTitle: string
+    },
   src?: Chapter,
 ) => {
   if (src === undefined) {
@@ -38,7 +38,7 @@ export const setChapInfo = (
 }
 
 export const wc2Wan = (num = 0) => {
-  const unit = localStorage.getItem('language') === 'en' ? 1000 : 10000
+  const unit = defaultLanguage() === 'enUS' ? 1000 : 10000
 
   return num >= unit ? Math.ceil(num / unit) + _t('common.wan') : num
 }

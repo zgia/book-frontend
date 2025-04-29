@@ -22,7 +22,7 @@
   import { useOptionsStore, useLocaleStore } from './stores'
   import zhCN from 'element-plus/dist/locale/zh-cn'
   import zhTW from 'element-plus/dist/locale/zh-tw'
-  import en from 'element-plus/dist/locale/en'
+  import enUS from 'element-plus/dist/locale/en'
   import { _t } from '~/locales'
 
   const gostore = useOptionsStore()
@@ -44,13 +44,13 @@
 
   // 监控 BaseHeaderExtra.vue toggleLang()
   const locale = computed(() =>
-    lostore.locale === 'zhCN' ? zhCN : lostore.locale === 'zhTW' ? zhTW : en,
+    lostore.locale === 'enUS' ? enUS : lostore.locale === 'zhTW' ? zhTW : zhCN
   )
   watch(
     () => lostore.locale,
     () => {
       setWebTitle()
-    },
+    }
   )
 
   // 调整页面宽度
