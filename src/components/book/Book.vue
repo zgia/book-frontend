@@ -158,6 +158,7 @@
   />
 </template>
 <script lang="ts" setup>
+  import { ref, onMounted, onBeforeUnmount } from 'vue'
   import { ElMessage, ElMessageBox } from 'element-plus'
   import { IconoirDownloadCircle } from '~/composables'
   import { BookService } from '~/http'
@@ -230,7 +231,7 @@
 
   // ***************** 编辑图书 ***************** //
   const editBookDialog = defineAsyncComponent(
-    () => import('./EditBookDialog.vue'),
+    () => import('./EditBookDialog.vue')
   )
   const editBookVisible = ref(false)
 
@@ -259,7 +260,7 @@
         cancelButtonText: _t('common.btn_cancel'),
         type: 'info',
         icon: markRaw(IconoirDownloadCircle),
-      },
+      }
     )
       .then(() => {
         downloading.value = true
@@ -270,14 +271,14 @@
         BookService.download({ id: bookid }, filename)
           .then(() => {
             ElMessage.success(
-              _t('book.book_downloaded_ok', { title: filename }),
+              _t('book.book_downloaded_ok', { title: filename })
             )
           })
           .catch((err) => {
             ElMessage.error(
               _t('book.book_downloaded_error', {
                 title: err.messge || err.msg,
-              }),
+              })
             )
           })
           .finally(() => {
@@ -301,7 +302,7 @@
         confirmButtonClass: 'ep-button--danger',
         cancelButtonText: _t('common.btn_cancel'),
         type: 'warning',
-      },
+      }
     )
       .then(() => {
         BookService.deleteChapter({ bookid: bookid, id: row.id })
@@ -312,7 +313,7 @@
           .catch((err) => {
             ElMessage.error(
               'CHAPERR: ' +
-                _t('common.deleted_error', { err: err.messge || err.msg }),
+                _t('common.deleted_error', { err: err.messge || err.msg })
             )
           })
       })
@@ -384,7 +385,16 @@
       })
   }
 
-  getChapters()
+  onBeforeUnmount(() => {})
+
+  onMounted(() => {
+    getChapters()
+  })
+</script>
+<script lang="ts">
+  export default {
+    name: 'BookChapters',
+  };
 </script>
 <style scoped>
   h1 {

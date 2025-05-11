@@ -5,7 +5,11 @@
         <router-view name="header" />
       </el-header>
       <el-main>
-        <router-view />
+        <router-view v-slot="{ Component }">
+          <keep-alive include="BookChapters">
+            <component :is="Component" />
+          </keep-alive>
+        </router-view>
       </el-main>
       <el-footer>
         <el-divider border-style="dashed">
