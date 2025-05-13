@@ -46,7 +46,7 @@
       <el-button
         icon="IconoirMultiplePages"
         type="primary"
-        @click="handleVolume(bookid)"
+        @click="handleVolume()"
         >{{ $t('common.btn_volume') }}</el-button
       >
       <el-button
@@ -59,7 +59,7 @@
       <el-button
         icon="IconoirAddPage"
         type="primary"
-        @click="handleEdit(bookid)"
+        @click="handleEdit()"
         :disabled="noVolume"
         >{{ $t('common.btn_new_chapter') }}</el-button
       >
@@ -127,7 +127,7 @@
       <el-button
         class="chapter-link"
         v-if="chapter"
-        @click="handleRead(bookid, chapter.id)"
+        @click="handleRead(chapter.id)"
         >{{ subTitle(chapter.title) }}</el-button
       >
       <p v-if="editMode">
@@ -136,7 +136,7 @@
             text
             size="small"
             icon="IconoirPageEdit"
-            @click="handleEdit(bookid, chapter.id)"
+            @click="handleEdit(chapter.id)"
           />
           <el-button
             text
@@ -172,7 +172,7 @@
 
   const router = useRouter()
   const route = useRoute()
-  const bookid = intval(route.params.bookid)
+  const bookid = ref(0)
 
   // 加载动画
   const fsLoading = ref(false)
@@ -268,7 +268,7 @@
         ElMessage.info(_t('book.start_downloading'))
 
         const filename = currentBook.title + '.zip'
-        BookService.download({ id: bookid }, filename)
+        BookService.download({ id: bookid.value }, filename)
           .then(() => {
             ElMessage.success(
               _t('book.book_downloaded_ok', { title: filename })
@@ -305,7 +305,7 @@
       }
     )
       .then(() => {
-        BookService.deleteChapter({ bookid: bookid, id: row.id })
+        BookService.deleteChapter({ bookid: bookid.value, id: row.id })
           .then(() => {
             chapterData[volumeid].splice(index, 1)
             ElMessage.success(_t('chapter.chapter_deleted_ok'))
@@ -323,18 +323,18 @@
   }
 
   // 编辑章节
-  const handleEdit = (bookid: number, chapterid = 0) => {
+  const handleEdit = (chapterid = 0) => {
     router.push({
       name: 'editchapter',
-      params: { bookid: bookid, chapterid: chapterid },
+      params: { bookid: bookid.value, chapterid },
     })
   }
 
   // 阅读某章节
-  const handleRead = (bookid: number, chapterid: number) => {
+  const handleRead = (chapterid: number) => {
     router.push({
       name: 'chapter',
-      params: { bookid: bookid, chapterid: chapterid },
+      params: { bookid: bookid.value, chapterid },
     })
   }
 
@@ -347,8 +347,8 @@
   }
 
   // 卷管理
-  const handleVolume = (bookid: number) => {
-    router.push({ name: 'volumes', params: { bookid: bookid } })
+  const handleVolume = () => {
+    router.push({ name: 'volumes', params: { bookid: bookid.value } })
   }
 
   // ***************** 章节 ***************** //
@@ -358,8 +358,9 @@
   // 没有卷，需要添加一个卷，才能添加新的章节
   const noVolume = ref(false)
 
-  const getChapters = () => {
-    BookService.getChapters({ bookid: bookid })
+  const getChapters = (id) => {
+    bookid.value = id
+    BookService.getChapters({ bookid: id })
       .then((resp) => {
         setBookInfo(currentBook, resp.data.book)
 
@@ -388,13 +389,19 @@
   onBeforeUnmount(() => {})
 
   onMounted(() => {
-    getChapters()
+    if (!route.meta.keepAlive) {
+      getChapters(intval(route.params.bookid))
+    }
   })
-</script>
-<script lang="ts">
-  export default {
-    name: 'BookChapters',
-  };
+
+  watch(
+    () => route.params.bookid,
+    (newBookId, oldBookId) => {
+      if (newBookId && newBookId !== oldBookId && !route.meta.keepAlive) {
+        getChapters(intval(newBookId))
+      }
+    }
+  )
 </script>
 <style scoped>
   h1 {

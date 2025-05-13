@@ -59,7 +59,7 @@ const haveNoPermission = (status = 0) => {
   return { name: 'booklist' }
 }
 
-router.beforeEach(async (to: RouteLocationNormalized) => {
+router.beforeEach(async (to: RouteLocationNormalized, from: RouteLocationNormalized) => {
   localStorage.setItem('reqtoken', '' + Date.now())
 
   if (getToken()) {
@@ -85,6 +85,14 @@ router.beforeEach(async (to: RouteLocationNormalized) => {
           !permissions[toName]
         ) {
           return haveNoPermission()
+        }
+
+        if (from.name === 'chapter' && to.name === 'book') {
+          // 从章节返回目录，保留缓存
+          to.meta.keepAlive = true;
+        } else if (from.name === 'booklist' && to.name === 'book') {
+          // 从书籍列表进入目录，不缓存
+          to.meta.keepAlive = false;
         }
       } catch (err: any) {
         console.error('router.beforeEach.error', err, typeof err)
