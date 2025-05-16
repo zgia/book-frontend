@@ -1,7 +1,7 @@
 <template>
   <div class="book-categ">
     <el-segmented
-      v-model="currentCateg"
+      v-model="searchForm.q"
       :options="categories"
       size="small"
       block
@@ -86,9 +86,9 @@
     </el-table-column>
     <el-table-column :label="$t('book.category')" width="100" v-if="showAuthor">
       <template #default="scope">
-        <router-link :to="categoryUrl(scope.row)" class="ep-link author-url">{{
-          bookCategory(scope.row)
-        }}</router-link>
+        <router-link :to="categoryUrl(scope.row)" class="ep-link author-url">
+          <el-tag round :type="bookTag(scope.row)">{{ bookCategory(scope.row) }}</el-tag>
+        </router-link>
       </template>
     </el-table-column>
     <el-table-column :label="$t('book.author')" width="120" v-if="showAuthor">
@@ -348,7 +348,6 @@
   )
 
   // ***************** 分类导航 ***************** //
-  const currentCateg = ref(searchForm.q)
   const allTotal = ref(0)
   const categories = reactive([]) as any
   gostore.categories.forEach((val) => {
@@ -381,6 +380,31 @@
   }
 
   // ***************** 图书信息 ***************** //
+  const bookTag = (row: Book) => {
+    let tag = 'primary'
+    switch (row.categoryid) {
+      case 8:
+      case 3:
+        tag = 'danger'
+        break;
+      case 6:
+      case 7:
+        tag = 'success'
+        break;
+      case 2:
+      case 5:
+        tag = 'warning'
+        break;
+      case 10:
+        tag = 'info'
+        break;
+      default:
+        tag = 'primary'
+        break;
+    }
+
+    return tag
+  }
   const bookCategory = (row: Book) => {
     return row.categoryid ? gostore.categoryMap[row.categoryid] : ''
   }
