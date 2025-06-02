@@ -30,6 +30,7 @@
     :highlight-current-row="true"
     :default-sort="defaultSort"
     @sort-change="handleSortChange"
+    @filter-change="handleRateFilterChange"
     tripe
     border
   >
@@ -59,7 +60,7 @@
       prop="rate"
       column-key="rate"
       :filters="rateFilters"
-      :filter-method="handleRateFilter"
+      :filter-multiple="false"
       :sort-orders="sortOrders"
       sortable="custom"
     >
@@ -87,7 +88,9 @@
     <el-table-column :label="$t('book.category')" width="100" v-if="showAuthor">
       <template #default="scope">
         <router-link :to="categoryUrl(scope.row)" class="ep-link author-url">
-          <el-tag round :type="bookTag(scope.row)">{{ bookCategory(scope.row) }}</el-tag>
+          <el-tag round :type="bookTag(scope.row)">{{
+            bookCategory(scope.row)
+          }}</el-tag>
         </router-link>
       </template>
     </el-table-column>
@@ -315,6 +318,10 @@
     else if (to.query.ob !== from.query.ob || to.query.dt !== from.query.dt) {
       getBooks()
     }
+    // 筛选
+    else if (to.query.rate !== from.query.rate) {
+      getBooks()
+    }
     // 翻页
     else if (to.query.p !== from.query.p) {
       searchForm.p = intval(to.query.p?.toString() ?? 1)
@@ -383,24 +390,24 @@
   const bookTag = (row: Book) => {
     let tag = 'primary'
     switch (row.categoryid) {
-      case 8:
-      case 3:
+      case '8':
+      case '3':
         tag = 'danger'
-        break;
-      case 6:
-      case 7:
+        break
+      case '6':
+      case '7':
         tag = 'success'
-        break;
-      case 2:
-      case 5:
+        break
+      case '2':
+      case '5':
         tag = 'warning'
-        break;
-      case 10:
+        break
+      case '10':
         tag = 'info'
-        break;
+        break
       default:
         tag = 'primary'
-        break;
+        break
     }
 
     return tag
@@ -665,16 +672,11 @@
     { text: '1 分', value: '1' },
     { text: '未评分', value: '0' },
   ]
-  const handleRateFilter = (value: any, row: any, column: any) => {
-    console.log(
-      'handleRateFilter',
-      value,
-      column['property'],
-      row[column['property']]
-    )
 
-    // return `${row[column['property']]}` === value
-    return true
+  const handleRateFilterChange = (columnKey: any) => {
+    searchForm.rate = columnKey['rate'][0]
+    searchForm.p = 1
+    router.push({ name: 'booklist', query: searchForm })
   }
 
   const clearSort = () => {
