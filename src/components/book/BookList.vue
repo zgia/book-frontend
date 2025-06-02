@@ -88,18 +88,18 @@
     <el-table-column :label="$t('book.category')" width="100" v-if="showAuthor">
       <template #default="scope">
         <router-link :to="categoryUrl(scope.row)" class="ep-link author-url">
-          <el-tag round :type="bookTag(scope.row)">{{
-            bookCategory(scope.row)
-          }}</el-tag>
+          <el-tag round :type="bookTag(scope.row)">
+            {{ bookCategory(scope.row) }}
+          </el-tag>
         </router-link>
       </template>
     </el-table-column>
     <el-table-column :label="$t('book.author')" width="120" v-if="showAuthor">
       <template #default="scope">
         <div v-if="scope.row.author">
-          <router-link :to="authorUrl(scope.row)" class="ep-link author-url">{{
-            scope.row.author
-          }}</router-link>
+          <router-link :to="authorUrl(scope.row)" class="ep-link author-url">
+            {{ scope.row.author }}
+          </router-link>
         </div>
         <div v-else>{{ $t('book.unkown_author') }}</div>
       </template>
@@ -113,9 +113,9 @@
       sortable="custom"
     >
       <template #default="scope">
-        <div class="book-wordcount" :title="scope.row.wordcount">{{
-          wc2Wan(scope.row.wordcount)
-        }}</div>
+        <div class="book-wordcount" :title="scope.row.wordcount">
+          {{ wc2Wan(scope.row.wordcount) }}
+        </div>
       </template>
     </el-table-column>
     <el-table-column
@@ -132,9 +132,9 @@
             <IconoirCheckCircled />
           </el-icon>
         </div>
-        <div :title="scope.row.latest" v-else
-          ><small>{{ latestChapter(scope.row) }}</small></div
-        >
+        <div :title="scope.row.latest" v-else>
+          <small>{{ latestChapter(scope.row) }}</small>
+        </div>
       </template>
     </el-table-column>
     <el-table-column :label="$t('book.summary')" v-if="showSummary">
@@ -189,9 +189,9 @@
             </p>
           </div>
           <template #reference>
-            <el-button text size="small" icon="IconoirMore">{{
-              $t('book.op_more')
-            }}</el-button>
+            <el-button text size="small" icon="IconoirMore">
+              {{ $t('book.op_more') }}
+            </el-button>
           </template>
         </el-popover>
       </template>
@@ -387,8 +387,10 @@
   }
 
   // ***************** 图书信息 ***************** //
-  const bookTag = (row: Book) => {
-    let tag = 'primary'
+  const bookTag = (
+    row: Book
+  ): 'primary' | 'success' | 'warning' | 'info' | 'danger' => {
+    let tag: 'primary' | 'success' | 'warning' | 'info' | 'danger' = 'primary'
     switch (row.categoryid) {
       case '8':
       case '3':
