@@ -60,7 +60,7 @@
       prop="rate"
       column-key="rate"
       :filters="rateFilters"
-      :filter-multiple="false"
+      :filtered-value="rateFilteredValue"
       :sort-orders="sortOrders"
       sortable="custom"
     >
@@ -275,7 +275,7 @@
     sm: '',
     ob: '', // 排序列
     dt: '', // 排序方向
-    rate: '', // 列出指定评分
+    rate: '', // 列出指定评分，逗号分隔
   })
 
   // 翻页时，更新路由
@@ -675,8 +675,10 @@
     { text: '未评分', value: '0' },
   ]
 
+  const rateFilteredValue = ref<string[]>([])
+
   const handleRateFilterChange = (columnKey: any) => {
-    searchForm.rate = columnKey['rate'][0]
+    searchForm.rate = columnKey['rate'].join(',')
     searchForm.p = 1
     router.push({ name: 'booklist', query: searchForm })
   }
@@ -725,6 +727,9 @@
     searchForm.ob = ob?.toString() || ''
     searchForm.dt = dt?.toString() || ''
     searchForm.rate = rate?.toString() || ''
+    if (searchForm.rate) {
+      rateFilteredValue.value = searchForm.rate.split(',')
+    }
 
     console.log('BookList.onMounted', searchForm)
 
