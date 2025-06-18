@@ -392,19 +392,19 @@
   ): 'primary' | 'success' | 'warning' | 'info' | 'danger' => {
     let tag: 'primary' | 'success' | 'warning' | 'info' | 'danger' = 'primary'
     switch (row.categoryid) {
-      case '8':
-      case '3':
+      case 8:
+      case 3:
         tag = 'danger'
         break
-      case '6':
-      case '7':
+      case 6:
+      case 7:
         tag = 'success'
         break
-      case '2':
-      case '5':
+      case 2:
+      case 5:
         tag = 'warning'
         break
-      case '10':
+      case 10:
         tag = 'info'
         break
       default:
@@ -730,8 +730,6 @@
     if (searchForm.rate) {
       rateFilteredValue.value = searchForm.rate.split(',')
     }
-
-    console.log('BookList.onMounted', searchForm)
 
     getBooks()
   })

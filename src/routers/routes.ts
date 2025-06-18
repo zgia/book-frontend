@@ -16,10 +16,10 @@ export const routes = [
     meta: { scrollToTop: true },
   },
   {
-    name: 'volumes',
-    path: '/book/:bookid/volumes',
+    name: 'bookvolumes',
+    path: '/book/:bookid/volume',
     components: {
-      default: () => import('~/components/book/Volumes.vue'),
+      default: () => import('~/components/book/BookVolumes.vue'),
       header: baseHeader,
     },
   },
@@ -27,17 +27,26 @@ export const routes = [
     name: 'volumechapters',
     path: '/book/:bookid/volcha/:volumeid',
     components: {
-      default: () => import('~/components/book/VolumeChapter.vue'),
+      default: () => import('~/components/book/VolumeChapters.vue'),
       header: baseHeader,
     },
   },
   {
-    name: 'book',
+    name: 'bookindex',
     path: '/book/:bookid/index',
     components: {
-      default: () => import('~/components/book/Book.vue'),
+      default: () => import('~/components/book/BookIndex.vue'),
       header: baseHeader,
     },
+  },
+  {
+    name: 'bookchapters',
+    path: '/book/:bookid/chapter/:chapterid',
+    components: {
+      default: () => import('~/components/book/BookChapters.vue'),
+      header: baseHeader,
+    },
+    meta: { scrollToTop: true },
   },
   {
     name: 'editchapter',
@@ -46,15 +55,6 @@ export const routes = [
       default: () => import('~/components/book/EditChapter.vue'),
       header: baseHeader,
     },
-  },
-  {
-    name: 'chapter',
-    path: '/book/:bookid/chapter/:chapterid',
-    components: {
-      default: () => import('~/components/book/Chapter.vue'),
-      header: baseHeader,
-    },
-    meta: { scrollToTop: true },
   },
   {
     name: 'search',

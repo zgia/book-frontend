@@ -148,7 +148,7 @@
   // 自动焦点
   onMounted(() => {
     nextTick(() => {
-      ;(titleRef.value as HTMLInputElement).focus()
+      (titleRef.value as HTMLInputElement).focus()
     })
   })
 </script>

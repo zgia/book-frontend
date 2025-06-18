@@ -2,12 +2,12 @@
   <h1
     >{{ currentBook.title }}<xxsmall>{{ currentBook.alias }}</xxsmall>
   </h1>
-  <h2
+  <h3
     >{{ currentBook.author }}
     <xxsmall v-if="currentBook.author_former_name"
       >曾用名: {{ currentBook.author_former_name }}</xxsmall
     >
-  </h2>
+  </h3>
   <div class="book-info text-left">
     <h2
       >{{ $t('chapter.summary') }}
@@ -70,7 +70,7 @@
       />
     </el-button-group>
   </div>
-  <h2 class="text-left"
+  <h3 class="text-left"
     >{{ $t('common.bookindex') }}
     <xxsmall v-if="currentBook.isfinished"
       >{{ $t('book.finished_book') }}
@@ -78,7 +78,7 @@
     <xxsmall v-else>
       {{ $t('chapter.beupto') }} {{ currentBook.latest }}</xxsmall
     >
-  </h2>
+  </h3>
   <el-row v-for="(volume, vidx) in volumeData" :index="volume.id" :key="vidx">
     <el-col class="text-left">
       <div
@@ -158,7 +158,13 @@
   />
 </template>
 <script lang="ts" setup>
-  import { ref, onMounted, onBeforeUnmount } from 'vue'
+  import {
+    ref,
+    onMounted,
+    onBeforeUnmount,
+    onActivated,
+    onDeactivated,
+  } from 'vue'
   import { ElMessage, ElMessageBox } from 'element-plus'
   import { IconoirDownloadCircle } from '~/composables'
   import { BookService } from '~/http'
@@ -333,7 +339,7 @@
   // 阅读某章节
   const handleRead = (chapterid: number) => {
     router.push({
-      name: 'chapter',
+      name: 'bookchapters',
       params: { bookid: bookid.value, chapterid },
     })
   }
@@ -348,7 +354,7 @@
 
   // 卷管理
   const handleVolume = () => {
-    router.push({ name: 'volumes', params: { bookid: bookid.value } })
+    router.push({ name: 'bookvolumes', params: { bookid: bookid.value } })
   }
 
   // ***************** 章节 ***************** //
@@ -386,23 +392,74 @@
       })
   }
 
+  // 记录滚动位置
+  const scrollTop = ref(0)
+  const recordScroll = () => {
+    scrollTop.value = window.scrollY || document.documentElement.scrollTop
+  }
+
+  // 恢复滚动
+  const restoreScroll = () => {
+    if (route.meta.keepScroll) {
+      console.log('恢复滚动位置:', scrollTop.value)
+      // 使用setTimeout确保DOM完全更新后再滚动
+      // setTimeout(() => {
+      //   window.scrollTo({ top: scrollTop.value })
+      // }, 100)
+      window.scrollTo({ top: scrollTop.value })
+    } else {
+      console.log('重置滚动位置到顶部')
+      window.scrollTo({ top: 0 })
+    }
+  }
+
   onBeforeUnmount(() => {})
 
   onMounted(() => {
+    console.log('bookindex.onMounted', route.meta, route.params)
     if (!route.meta.keepAlive) {
-      getChapters(intval(route.params.bookid))
+      getChapters(intval(route.params.bookid as string))
     }
+
+    restoreScroll()
+  })
+
+  onActivated(() => {
+    console.log(
+      'bookindex.onActivated',
+      route.meta,
+      '滚动位置:',
+      scrollTop.value
+    )
+    // 检查是否需要重新加载数据
+    if (!route.meta.keepAlive) {
+      getChapters(intval(route.params.bookid as string))
+    }
+    restoreScroll()
+  })
+
+  onDeactivated(() => {
+    recordScroll()
+    console.log('bookindex.onDeactivated, 记录滚动位置:', scrollTop.value)
   })
 
   watch(
     () => route.params.bookid,
     (newBookId, oldBookId) => {
       if (newBookId && newBookId !== oldBookId && !route.meta.keepAlive) {
+        console.log('bookindex.watch', newBookId, oldBookId, route.meta)
         getChapters(intval(newBookId))
       }
     }
   )
 </script>
+
+<script lang="ts">
+  export default {
+    name: 'BookDirectory',
+  }
+</script>
+
 <style scoped>
   h1 {
     font-size: 2.5em;

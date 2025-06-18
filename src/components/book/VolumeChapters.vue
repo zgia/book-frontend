@@ -36,7 +36,7 @@
   const volContent = ref('')
 
   const bookIndex = () => {
-    router.push({ name: 'book', params: { bookid: bookid.value } })
+    router.push({ name: 'bookindex', params: { bookid: bookid.value } })
   }
 
   const getBook = (bookid: number) => {

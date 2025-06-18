@@ -1,6 +1,6 @@
 export interface Book {
   id: number
-  categoryid?: string
+  categoryid?: number | string
   title: string
   alias?: string
   author?: string

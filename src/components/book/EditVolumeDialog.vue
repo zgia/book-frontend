@@ -134,8 +134,7 @@
   const titleRef = ref<HTMLInputElement | null>(null)
   onMounted(() => {
     nextTick(() => {
-      const titleInput = titleRef.value as HTMLInputElement
-      titleInput.focus()
+      (titleRef.value as HTMLInputElement).focus()
     })
   })
 </script>

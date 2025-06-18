@@ -16,27 +16,38 @@ import { _t } from '~/locales'
 const scrollBehavior = (to, from, savedPosition) => {
   if (savedPosition) {
     // savedPosition is only available for popstate navigations.
-    //console.log('savedPosition ', from.name, ' to ', to.name, savedPosition)
+    console.log('使用savedPosition:', from.name, ' to ', to.name, savedPosition)
     return savedPosition
-  } else {
-    const position = {}
-    // new navigation.
-    // scroll to anchor by returning the selector
-    if (to.hash) {
-      position['selector'] = to.hash
-    }
-    // check if any matched route config has meta that requires scrolling to top
-    if (to.matched.some((m) => m.meta.scrollToTop)) {
-      // cords will be used if no selector is provided,
-      // or if the selector didn't match any element.
-      position['top'] = 0
-      position['left'] = 0
-    }
-    // if the returned position is falsy or an empty object,
-    // will retain current scroll position.
-    //console.log('newPosition ', from.name, ' to ', to.name, position)
-    return position
   }
+
+  if (to.meta.keepScroll) {
+    console.log('路由设置了keepScroll，返回false不处理滚动')
+    return false;
+  }
+
+  // 从图书列表到目录页时，强制滚动到顶部
+  if (from.name === 'booklist' && to.name === 'bookindex') {
+    return { top: 0 }
+  }
+
+  const position = {}
+  // new navigation.
+  // scroll to anchor by returning the selector
+  if (to.hash) {
+    position['selector'] = to.hash
+  }
+  // check if any matched route config has meta that requires scrolling to top
+  if (to.matched.some((m) => m.meta.scrollToTop)) {
+    // cords will be used if no selector is provided,
+    // or if the selector didn't match any element.
+    position['top'] = 0
+    position['left'] = 0
+  }
+  // if the returned position is falsy or an empty object,
+  // will retain current scroll position.
+  console.log('newPosition ', from.name, ' to ', to.name, position)
+  return position
+
 }
 
 // 使用createWebHistory时，浏览器直接打开非首页链接时会404，这时需要在
@@ -87,12 +98,19 @@ router.beforeEach(async (to: RouteLocationNormalized, from: RouteLocationNormali
           return haveNoPermission()
         }
 
-        if (from.name === 'chapter' && to.name === 'book') {
-          // 从章节返回目录，保留缓存
-          to.meta.keepAlive = true;
-        } else if (from.name === 'booklist' && to.name === 'book') {
-          // 从书籍列表进入目录，不缓存
-          to.meta.keepAlive = false;
+        // 控制目录页是否需要缓存数据
+        if (to.name === 'bookindex') {
+          // 从章节页进入目录页，保留数据和滚动
+          if (from.name === 'bookchapters' || from.name === 'volumechapters') {
+            console.log('从章节页返回目录页，保持滚动位置')
+            to.meta.keepAlive = true;
+            to.meta.keepScroll = false;
+          } else {
+            // 其他情况（如从首页进入），刷新数据+回顶部
+            console.log('从其他页面进入目录页，重置滚动位置')
+            to.meta.keepAlive = false;
+            to.meta.keepScroll = true;
+          }
         }
       } catch (err: any) {
         console.error('router.beforeEach.error', err, typeof err)

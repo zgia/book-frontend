@@ -14,7 +14,7 @@
         >
         <el-divider
           direction="vertical"
-          v-if="gostore.headerIndex !== 'booklist' && gostore.book?.title"
+          v-if="routeName !== 'booklist'"
           class="header-title"
         />
         <div
@@ -40,42 +40,38 @@
 
   const gostore = useOptionsStore()
   const router = useRouter()
+  const routeName = computed(() => router.currentRoute.value.name)
 
-  const isReadingChapter = () => {
-    return (
-      gostore.headerIndex === 'chapter' ||
-      gostore.headerIndex === 'volumechapter' ||
-      gostore.headerIndex === 'volumes' ||
-      gostore.headerIndex === 'editchapter' ||
-      gostore.headerIndex === 'searchinbook'
-    )
-  }
+  const isReadingChapter = computed(
+    () =>
+      routeName.value === 'bookchapters' ||
+      routeName.value === 'volumechapters' ||
+      routeName.value === 'bookvolumes' ||
+      routeName.value === 'editchapter'
+  )
 
   // 页头按钮
   const goBack = () => {
-    if (isReadingChapter()) {
+    if (isReadingChapter.value) {
       bookIndex()
-    } else if (
-      gostore.headerIndex === 'book' ||
-      gostore.headerIndex === 'search'
-    ) {
+    } else if (routeName.value === 'bookindex' || routeName.value === 'search') {
       bookList()
     }
   }
 
   const backTitle = () => {
-    return isReadingChapter() ? _t('common.bookindex') : _t('common.booklist')
+    return isReadingChapter.value
+      ? _t('common.bookindex')
+      : _t('common.library')
   }
 
   const backIcon = () => {
-    return gostore.headerIndex === 'booklist'
-      ? 'IconoirBook'
-      : 'IconoirArrowLeftCircle'
+    return routeName.value === 'booklist' ? 'IconoirBook' : 'IconoirArrowLeftCircle'
   }
 
   // 某本书的目录
   const bookIndex = () => {
-    router.push({ name: 'book', params: { bookid: gostore.book?.id } })
+    router.push({ name: 'bookindex', params: { bookid: gostore.book?.id } })
   }
 
   // 图书列表

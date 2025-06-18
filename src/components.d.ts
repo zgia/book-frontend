@@ -11,7 +11,10 @@ declare module 'vue' {
     BaseHeader: typeof import('./components/layouts/BaseHeader.vue')['default']
     BaseHeaderExtra: typeof import('./components/layouts/BaseHeaderExtra.vue')['default']
     Book: typeof import('./components/book/Book.vue')['default']
+    BookChapters: typeof import('./components/book/BookChapters.vue')['default']
+    BookIndex: typeof import('./components/book/BookIndex.vue')['default']
     BookList: typeof import('./components/book/BookList.vue')['default']
+    BookVolumes: typeof import('./components/book/BookVolumes.vue')['default']
     CategoryForm: typeof import('./components/preference/CategoryForm.vue')['default']
     Chapter: typeof import('./components/book/Chapter.vue')['default']
     EditAuthorDialog: typeof import('./components/author/EditAuthorDialog.vue')['default']
@@ -68,9 +71,10 @@ declare module 'vue' {
     SearchDialog: typeof import('./components/SearchDialog.vue')['default']
     SystemPreferences: typeof import('./components/preference/SystemPreferences.vue')['default']
     VolumeChapter: typeof import('./components/book/VolumeChapter.vue')['default']
+    VolumeChapters: typeof import('./components/book/VolumeChapters.vue')['default']
     Volumes: typeof import('./components/book/Volumes.vue')['default']
   }
-  export interface ComponentCustomProperties {
+  export interface GlobalDirectives {
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }

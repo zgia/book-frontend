@@ -255,11 +255,11 @@
 
         if (chapterid) {
           router.push({
-            name: 'chapter',
+            name: 'bookchapters',
             params: { bookid: bookid, chapterid: chapterid },
           })
         } else {
-          router.push({ name: 'book', params: { bookid: bookid } })
+          router.push({ name: 'bookindex', params: { bookid: bookid } })
         }
       })
       .catch((err) => {
@@ -323,7 +323,7 @@
         if (d.items.length === 0) {
           ElMessage.error('CHAPERR: ' + _t('chapter.add_volume_first'))
 
-          router.push({ name: 'volumes', params: { bookid: bookid } })
+          router.push({ name: 'bookvolumes', params: { bookid: bookid } })
 
           return
         }

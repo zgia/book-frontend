@@ -217,7 +217,7 @@
 
     // 自动焦点
     nextTick(() => {
-      ;(titleRef.value as HTMLInputElement).focus()
+      (titleRef.value as HTMLInputElement).focus()
     })
   }
 

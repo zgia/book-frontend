@@ -6,7 +6,7 @@
       </el-header>
       <el-main>
         <router-view v-slot="{ Component }">
-          <keep-alive include="Book">
+          <keep-alive include="BookDirectory">
             <component :is="Component" />
           </keep-alive>
         </router-view>

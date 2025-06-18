@@ -69,7 +69,7 @@
   import { useOptionsStore } from '~/stores'
 
   const gostore = useOptionsStore()
-  gostore.headerIndex = 'chapter'
+  gostore.headerIndex = 'bookchapters'
 
   const router = useRouter()
   const route = useRoute()
@@ -114,12 +114,12 @@
   const flipping = (chapterid: number) => {
     if (chapterid) {
       router.push({
-        name: 'chapter',
+        name: 'bookchapters',
         params: { bookid: bookid.value, chapterid: chapterid },
       })
     } else {
       router
-        .push({ name: 'book', params: { bookid: bookid.value } })
+        .push({ name: 'bookindex', params: { bookid: bookid.value } })
         .then(() => {
           setChapInfo(prevChap)
           setChapInfo(nextChap)

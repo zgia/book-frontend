@@ -89,7 +89,7 @@
   import { _t } from '~/locales'
 
   const gostore = useOptionsStore()
-  gostore.headerIndex = 'volumes'
+  gostore.headerIndex = 'bookvolumes'
 
   const route = useRoute()
   const bookid = intval(route.params.bookid)
